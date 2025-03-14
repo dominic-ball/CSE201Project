@@ -12,4 +12,9 @@ public class HelloController {
     public String sayHello() {
         return "Welcome to gaming social media";
     }
+
+    @GetMapping("/button-click")
+    public String buttonClick() {
+        return "Button clicked!";
+    }
 }
