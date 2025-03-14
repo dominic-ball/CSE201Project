@@ -10,11 +10,11 @@ public class HelloController {
 
     @GetMapping
     public String sayHello() {
-        return "Welcome to gaming social media";
+        return "<script>window.location.href = '/home.html';</script>";
     }
 
-    @GetMapping("/button-click")
-    public String buttonClick() {
-        return "Button clicked!";
+    @GetMapping("/sign-up")
+    public String loginClicked() {
+        return "sign up placeholder";
     }
 }
