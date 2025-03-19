@@ -67,33 +67,41 @@ button {
 
 
 <head>
-    <title>Create an Account</title>
+    <title>HTML Login Form</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
-<div class="container">
-    <form action="/action_page.php">
-      <div class="row">
-        <h1 style="text-align:center">Create an Account</h1>
-        </div>
-
-          <input type="text" name="Email" placeholder="Email" required>
-          <input type="text" name="username" placeholder="Username" required>
-          <input type="password" name="password" placeholder="Password" required>
-        </div>
+<body>
+    <div class="main">
+        <h1>Gamified Social Media Website</h1>
+        <h3>Login into your account</h3>
 
         <form action="">
-        <div class="wrap">
-            <button type="submit">
-                Submit
-            </button>
-        </div>
-    </form>
+            <label for="first">
+                Username:
+            </label>
+            <input type="text" id="first" name="first" 
+                placeholder="Enter your Username" required>
 
-        <p>Registered?
-            <a href="loginpage.html" style="text-decoration: none;">
-                Log in
+            <label for="password">
+                Password:
+            </label>
+            <input type="password" id="password" name="password" 
+                placeholder="Enter your Password" required>
 
-      </div>
-    </form>
-  </div>
+            <div class="wrap">
+                <button type="submit">
+                    Submit
+                </button>
+            </div>
+        </form>
+
+        <p>Not registered?
+            <a href="createaaccount.html" style="text-decoration: none;">
+                Create an account
+            </a>
+        </p>
+    </div>
+</body>
+
+</html>
