@@ -1,99 +1,104 @@
-<style>
-    css for both body {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: sans-serif;
-    line-height: 1.5;
-    min-height: 100vh;
-    background: #f3f3f3;
-    flex-direction: column;
-    margin: 0;
-}
-
-.main {
-    background-color: #fff;
-    border-radius: 15px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-    padding: 10px 20px;
-    transition: transform 0.2s;
-    width: 500px;
-    text-align: center;
-}
-
-h1 {
-    color: orange;
-}
-
-label {
-    display: block;
-    width: 100%;
-    margin-top: 10px;
-    margin-bottom: 5px;
-    text-align: left;
-    color: #555;
-    font-weight: bold;
-}
-
-input {
-    display: block;
-    width: 100%;
-    margin-bottom: 15px;
-    padding: 10px;
-    box-sizing: border-box;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-}
-
-button {
-    padding: 15px;
-    border-radius: 10px;
-    margin-top: 15px;
-    margin-bottom: 15px;
-    border: none;
-    color: white;
-    cursor: pointer;
-    background-color: orange;
-    width: 100%;
-    font-size: 16px;
-}
-
-.wrap {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-</style>
-
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create an Account</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: sans-serif;
+            min-height: 100vh;
+            background: #2e2e2e;
+            margin: 0;
+            flex-direction: column;
+            color: white;
+        }
+
+        .main {
+            background-color: #3a3a3a;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            padding: 30px;
+            width: 400px;
+            text-align: center;
+        }
+
+        .logo {
+            width: 100px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #ffb400;
+        }
+
+        label {
+            display: block;
+            text-align: left;
+            margin: 10px 0 5px;
+            font-weight: bold;
+            color: #ddd;
+        }
+
+        input {
+            width: 85%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #555;
+            border-radius: 5px;
+            background: #2e2e2e;
+            color: white;
+        }
+
+        input::placeholder {
+            color: #bbb;
+        }
+
+        button {
+            padding: 12px;
+            border-radius: 5px;
+            border: none;
+            background-color: #ffb400;
+            color: #2e2e2e;
+            cursor: pointer;
+            font-size: 16px;
+            width: 85%;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #e0a200;
+        }
+
+        p {
+            margin-top: 15px;
+        }
+
+        a {
+            color: #ffb400;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
-
-<div class="container">
-    <form action="/action_page.php">
-      <div class="row">
-        <h1 style="text-align:center">Create an Account</h1>
-        </div>
-
-          <input type="text" name="Email" placeholder="Email" required>
-          <input type="text" name="username" placeholder="Username" required>
-          <input type="password" name="password" placeholder="Password" required>
-        </div>
-
-        <form action="">
-        <div class="wrap">
-            <button type="submit">
-                Submit
-            </button>
-        </div>
-    </form>
-
-        <p>Registered?
-            <a href="loginpage.html" style="text-decoration: none;">
-                Log in
-
-      </div>
-    </form>
-  </div>
+<body>
+    <div class="main">
+        <img src="ascendlogo.png" alt="Logo" class="logo">
+        <h1>Create an Account</h1>
+        <form action="/action_page.php">
+            <input type="email" name="Email" placeholder="Email" required>
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit">Sign Up</button>
+        </form>
+        <p>Already registered? <a href="loginpage.html">Log in</a></p>
+    </div>
+</body>
+</html>
