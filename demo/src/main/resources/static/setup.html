@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setup Your Account</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: sans-serif;
+            min-height: 100vh;
+            background: #2e2e2e;
+            margin: 0;
+            flex-direction: column;
+            color: white;
+        }
+
+        .main {
+            background-color: #3a3a3a;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            padding: 30px;
+            width: 400px;
+            text-align: center;
+        }
+
+        .logo {
+            width: 100px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #ffb400;
+        }
+
+        label {
+            display: block;
+            text-align: left;
+            margin: 10px 0 5px;
+            font-weight: bold;
+            color: #ddd;
+        }
+
+        input, textarea {
+            width: 85%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #555;
+            border-radius: 5px;
+            background: #2e2e2e;
+            color: white;
+        }
+
+        input::placeholder, textarea::placeholder {
+            color: #bbb;
+        }
+
+        textarea {
+            resize: none;
+            height: 100px;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .upload-label {
+            display: inline-block;
+            background-color: #ffb400;
+            color: #2e2e2e;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 85%;
+            text-align: center;
+        }
+
+        .upload-label:hover {
+            background-color: #e0a200;
+        }
+
+        .preview {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            display: block;
+            margin: 10px auto;
+            border: 2px solid #ffb400;
+        }
+
+        button {
+            padding: 12px;
+            border-radius: 5px;
+            border: none;
+            background-color: #ffb400;
+            color: #2e2e2e;
+            cursor: pointer;
+            font-size: 16px;
+            width: 85%;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #e0a200;
+        }
+
+        p {
+            margin-top: 15px;
+        }
+
+        a {
+            color: #ffb400;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <img src="ascendlogo.png" alt="Ascend Logo" class="logo">
+        <h1>Setup Your Account</h1>
+        <form action="/setup_account.php" method="POST" enctype="multipart/form-data">
+            <label for="profile-pic">Profile Picture:</label>
+            <input type="file" id="profile-pic" name="profile-pic" class="file-input" accept="image/*" onchange="previewImage(event)">
+            <label for="profile-pic" class="upload-label">Upload Profile Picture</label>
+            <img id="profile-preview" class="preview" src="default-avatar.png" alt="Profile Preview">
+        
+            <label for="bio">Bio:</label>
+            <textarea id="bio" name="bio" placeholder="Tell us a little about yourself..." maxlength="150"></textarea>
+        
+            <!-- Display username from the previous page -->
+            <input type="hidden" id="username" name="username">
+            <p>Setting up your account as: <strong id="display-username"></strong></p>
+        
+            <button type="submit">Save & Continue</button>
+        </form>
+        
+        <p>Want to go back? <a href="home.html">Return to Home</a></p>
+    </div>
+
+    <script>
+        function previewImage(event) {
+            const preview = document.getElementById("profile-preview");
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function() {
+                    preview.src = reader.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+
+    <script>
+        // Retrieve the username from the URL parameters
+        const params = new URLSearchParams(window.location.search);
+        const username = params.get("username");
+
+        // Set the username in the hidden input and display it
+        if (username) {
+            document.getElementById("username").value = username;
+            document.getElementById("display-username").textContent = username;
+        }
+    </script>
+
+</body>
+</html>
