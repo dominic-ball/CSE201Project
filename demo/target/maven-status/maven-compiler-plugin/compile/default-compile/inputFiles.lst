@@ -1,1 +1,5 @@
-/Users/dominicball/Library/Mobile Documents/com~apple~CloudDocs/CSE 201/demo/src/main/java/socialMediaSite/demo/SocialMediaSiteApplication.java
+/Users/dominicball/Documents/GitHub/CSE201Project/demo/src/main/java/socialMediaSite/demo/HelloController.java
+/Users/dominicball/Documents/GitHub/CSE201Project/demo/src/main/java/socialMediaSite/demo/SocialMediaSiteApplication.java
+/Users/dominicball/Documents/GitHub/CSE201Project/demo/src/main/java/socialMediaSite/demo/model/User.java
+/Users/dominicball/Documents/GitHub/CSE201Project/demo/src/main/java/socialMediaSite/demo/service/UserService.java
+/Users/dominicball/Documents/GitHub/CSE201Project/demo/src/main/java/socialMediaSite/repository/UserRepository.java

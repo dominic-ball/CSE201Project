@@ -1,13 +1,18 @@
 package socialMediaSite.demo;
-//hello test commit (dom)
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-public class SocialMediaSiteApplication {
+@ComponentScan(basePackages = "socialMediaSite")
+@EnableJpaRepositories(basePackages = "socialMediaSite.repository")
+@EntityScan(basePackages = "socialMediaSite.demo.model")
 
-	public static void main(String[] args) {
-		SpringApplication.run(SocialMediaSiteApplication.class, args);
-	}
-//test changes
+public class SocialMediaSiteApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(SocialMediaSiteApplication.class, args);
+    }
 }
