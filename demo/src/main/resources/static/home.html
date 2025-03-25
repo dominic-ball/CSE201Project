@@ -92,14 +92,39 @@
     <div class="main">
         <img src="ascendlogo.png" alt="Logo" class="logo">
         <h1>Create an Account</h1>
-        <form action="setup.html" method="GET">
-            <input type="email" name="Email" placeholder="Email" required>
+
+        <!-- ✅ NEW FORM -->
+        <form id="register-form">
+            <input type="email" name="email" placeholder="Email" required>
             <input type="text" name="username" placeholder="Username" required>
             <input type="password" name="password" placeholder="Password" required>
-            <button onclick="window.location.href='setup.html'">Sign Up</button>
+            <button type="submit">Sign Up</button>
+        </form>
 
-        </form>        
         <p>Already registered? <a href="loginpage.html">Log in</a></p>
     </div>
+
+   
+    <script>
+        document.getElementById("register-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const email = this.email.value;
+            const username = this.username.value;
+            const password = this.password.value;
+
+            fetch("/api/users/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ email, username, password })
+            })
+            .then(res => res.text())
+            .then(data => {
+                alert(data);
+                window.location.href = "setup.html?username=" + username;
+            });
+        });
+    </script>
 </body>
-</html>

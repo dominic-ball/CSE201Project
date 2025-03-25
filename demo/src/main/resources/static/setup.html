@@ -127,22 +127,21 @@
     <div class="main">
         <img src="ascendlogo.png" alt="Ascend Logo" class="logo">
         <h1>Setup Your Account</h1>
-        <form action="/setup_account.php" method="POST" enctype="multipart/form-data">
+        <form id="setup-form" enctype="multipart/form-data">
             <label for="profile-pic">Profile Picture:</label>
             <input type="file" id="profile-pic" name="profile-pic" class="file-input" accept="image/*" onchange="previewImage(event)">
             <label for="profile-pic" class="upload-label">Upload Profile Picture</label>
             <img id="profile-preview" class="preview" src="default-avatar.png" alt="Profile Preview">
-        
+
             <label for="bio">Bio:</label>
             <textarea id="bio" name="bio" placeholder="Tell us a little about yourself..." maxlength="150"></textarea>
-        
-            <!-- Display username from the previous page -->
+
             <input type="hidden" id="username" name="username">
             <p>Setting up your account as: <strong id="display-username"></strong></p>
-        
+
             <button type="submit">Save & Continue</button>
         </form>
-        
+
         <p>Want to go back? <a href="home.html">Return to Home</a></p>
     </div>
 
@@ -158,19 +157,33 @@
                 reader.readAsDataURL(file);
             }
         }
-    </script>
 
-    <script>
         // Retrieve the username from the URL parameters
         const params = new URLSearchParams(window.location.search);
         const username = params.get("username");
 
-        // Set the username in the hidden input and display it
         if (username) {
             document.getElementById("username").value = username;
             document.getElementById("display-username").textContent = username;
         }
-    </script>
 
+        // Handle setup form submission
+        document.getElementById("setup-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const formData = new FormData(this);
+
+            fetch("/api/users/setup", {
+                method: "POST",
+                body: formData
+            })
+            .then(res => res.text())
+            .then(data => {
+                alert(data);
+                // Redirect or load the next step here
+                // window.location.href = "dashboard.html";
+            });
+        });
+    </script>
 </body>
 </html>

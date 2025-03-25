@@ -1,3 +1,8 @@
+/**
+ * main spring boot application class
+ * launches backend server 
+ */
+
 package socialMediaSite.demo;
 
 import org.springframework.boot.SpringApplication;

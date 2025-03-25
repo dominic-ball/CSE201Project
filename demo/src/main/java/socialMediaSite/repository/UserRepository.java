@@ -1,3 +1,7 @@
+/*
+ * handles DB queries by ID or username
+ */
+
 package socialMediaSite.repository; 
 
 import socialMediaSite.demo.model.User;

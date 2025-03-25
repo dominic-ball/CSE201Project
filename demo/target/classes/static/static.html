@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+    <style>
+        body {
+            background-color: #2e2e2e;
+            font-family: sans-serif;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .profile-container {
+            background-color: #3a3a3a;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            width: 350px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+        }
+
+        .profile-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #ffb400;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #ffb400;
+        }
+
+        p {
+            font-size: 16px;
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <img id="profile-img" class="profile-img" src="default-avatar.png" alt="Profile Picture">
+        <h1 id="profile-username">Loading...</h1>
+        <p id="profile-bio"></p>
+    </div>
+
+    <script>
+        // Replace this with actual session data later
+        const username = new URLSearchParams(window.location.search).get("username");
+
+        if (!username) {
+            alert("No username provided!");
+        } else {
+            fetch(`/api/users/${username}`)
+                .then(res => res.json())
+                .then(user => {
+                    document.getElementById("profile-username").textContent = user.username;
+                    document.getElementById("profile-bio").textContent = user.bio || "No bio set.";
+
+                    if (user.profilePicPath) {
+                        const imgPath = user.profilePicPath.replace("uploads/", "");
+                        document.getElementById("profile-img").src = `/uploads/${imgPath}`;
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert("Failed to load user profile.");
+                });
+        }
+    </script>
+</body>
+</html>
