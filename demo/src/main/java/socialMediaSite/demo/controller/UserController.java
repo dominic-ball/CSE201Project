@@ -41,6 +41,7 @@ public class UserController {
         }
     }
 
+    @SuppressWarnings("null")
     @PostMapping("/setup")
     public String setupUser(
         @RequestParam("username") String username,
@@ -61,20 +62,32 @@ public class UserController {
 
         if (profilePic != null && !profilePic.isEmpty()) {
             try {
-                String uploadDir = "uploads/";
+                // Get absolute path to your project directory
+                String projectRoot = System.getProperty("user.dir");
+                String uploadDir = projectRoot + File.separator + "uploaded-pfps";
+        
                 File dir = new File(uploadDir);
                 if (!dir.exists()) dir.mkdirs();
-
-                String fileName = username + "_" + profilePic.getOriginalFilename();
-                String filePath = uploadDir + fileName;
-
+        
+                // Sanitize file name (remove spaces/special characters)
+                String originalFilename = profilePic.getOriginalFilename().replaceAll("[^a-zA-Z0-9\\.\\-]", "_");
+                String fileName = username + "_" + originalFilename;
+                String filePath = uploadDir + File.separator + fileName;
+        
+                // Save the file to disk
                 profilePic.transferTo(new File(filePath));
-                user.setProfilePicPath(filePath);
+        
+                // Set web-accessible path
+                user.setProfilePicPath("/uploaded-pfps/" + fileName);
+        
             } catch (IOException e) {
                 e.printStackTrace();
                 return "Failed to save profile picture.";
             }
         }
+        
+        
+        
 
         userService.register(user); // reuse save method
         return "Profile updated successfully!";
