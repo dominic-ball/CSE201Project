@@ -2,19 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login to Ascend</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login to Ascend</title>
     <style>
         body {
-            background-color: #2e2e2e;
-            color: white;
-            font-family: sans-serif;
             display: flex;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
+            font-family: sans-serif;
             min-height: 100vh;
+            background: #2e2e2e;
             margin: 0;
             flex-direction: column;
+            color: white;
         }
 
         .main {
@@ -34,7 +34,14 @@
 
         h1 {
             color: #ffb400;
-            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            text-align: left;
+            margin: 10px 0 5px;
+            font-weight: bold;
+            color: #ddd;
         }
 
         input {
@@ -52,7 +59,6 @@
         }
 
         button {
-            width: 85%;
             padding: 12px;
             border-radius: 5px;
             border: none;
@@ -60,6 +66,7 @@
             color: #2e2e2e;
             cursor: pointer;
             font-size: 16px;
+            width: 85%;
             font-weight: bold;
         }
 
@@ -69,7 +76,6 @@
 
         p {
             margin-top: 15px;
-            font-size: 14px;
         }
 
         a {
@@ -93,14 +99,13 @@
         </form>
         <p>Not registered? <a href="home.html">Create an account</a></p>
     </div>
-
     <script>
-        document.getElementById("login-form").addEventListener("submit", function(event) {
+        document.querySelector("form").addEventListener("submit", function(event) {
             event.preventDefault();
-
+    
             const username = this.username.value;
             const password = this.password.value;
-
+    
             fetch("/api/users/login", {
                 method: "POST",
                 headers: {
@@ -112,15 +117,15 @@
             .then(data => {
                 alert(data);
                 if (data.includes("successful")) {
-                    window.location.href = `dashboard.html?username=${username}`;
-
+                    // Store username for profile page
+                    localStorage.setItem("username", username);
+    
+                    // Redirect to Profile Page
+                    window.location.href = "profile.html";
                 }
-            })
-            .catch(err => {
-                alert("Something went wrong. Try again later.");
-                console.error(err);
             });
         });
     </script>
+    
 </body>
 </html>

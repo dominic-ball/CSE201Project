@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Ascend</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #2e2e2e;
+            color: white;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center; /* Center the main content */
+        }
+
+        .sidebar {
+            width: 200px;
+            background-color: #3a3a3a;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            height: 100vh;
+            box-sizing: border-box;
+            position: fixed;
+            top: 0;
+            left: 0;
+            border-radius: 0;
+        }
+
+        .sidebar-logo {
+            width: 80px;
+            margin-bottom: 30px;
+        }
+
+        .sidebar-button {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: white;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .sidebar-button:hover {
+            background-color: #444;
+        }
+
+        .sidebar-button img {
+            width: 20px;
+            margin-right: 10px;
+        }
+
+        .content-area {
+            display: flex;
+            justify-content: space-between; /* Distribute profile and level sections */
+            width: 80%; /* Adjust as needed */
+            max-width: 1200px; /* Adjust as needed */
+            margin-left: 240px; /* Account for sidebar width */
+        }
+
+        .profile-container {
+            border-radius: 15px;
+            padding: 20px;
+            width: 60%; /* Adjust profile width */
+            max-width: 800px;
+            margin-bottom: 20px;
+            background-color: transparent;
+        }
+
+        .profile-header {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid white;
+        }
+
+        .profile-pic-container {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid #ffb400;
+        }
+
+        .profile-pic {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .profile-info {
+            padding-left: 20px;
+        }
+
+        .username {
+            font-size: 1.4em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .profile-stats {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 8px;
+        }
+
+        .stat-item {
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .stat-count {
+            font-weight: normal;
+        }
+
+        .profile-bio {
+            font-size: 0.95em;
+            margin-bottom: 10px;
+        }
+
+        .profile-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .profile-actions button {
+            padding: 8px 15px;
+            border-radius: 5px;
+            border: 1px solid #555;
+            background-color: transparent;
+            color: white;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+
+        .profile-actions button.primary {
+            background-color: #ffb400;
+            color: #2e2e2e;
+            border: none;
+        }
+
+        .profile-actions button:hover {
+            background-color: #444;
+        }
+        .profile-actions button.primary:hover {
+            background-color: #e0a200;
+        }
+
+        .profile-nav {
+            display: flex;
+            justify-content: center;
+            border-bottom: 1px solid white;
+            padding: 10px 0;
+        }
+
+        .nav-item {
+            padding: 8px 0;
+            cursor: pointer;
+            font-weight: bold;
+            color: #ddd;
+            font-size: 0.9em;
+        }
+
+        .nav-item.active {
+            color: #ffb400;
+        }
+
+        .posts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 5px;
+            padding: 10px;
+        }
+
+        .post-item {
+            width: 100%;
+            aspect-ratio: 1/1;
+            overflow: hidden;
+            border-radius: 5px;
+        }
+
+        .post-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .level-container {
+            width: 30%; /* Adjust level section width */
+            max-width: 300px;
+            background-color: #3a3a3a;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .level-header {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .level-bar-container {
+            background-color: #555;
+            border-radius: 5px;
+            height: 20px;
+            width: 100%;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+
+        .level-bar {
+            background-image: linear-gradient(to right, #ffb400, #f08a00); /* Gradient color */
+            height: 100%;
+            width: 0%; /* Will be set by JavaScript */
+            border-radius: 5px;
+        }
+
+        .level-text {
+            font-size: 0.9em;
+            text-align: center;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+                align-items: center;
+                padding: 10px;
+            }
+
+            .sidebar {
+                width: 95%;
+                height: auto;
+                flex-direction: row;
+                justify-content: space-around;
+                border-radius: 15px;
+                position: static;
+                left: auto;
+                margin-bottom: 20px;
+            }
+
+            .sidebar-logo {
+
+                display: none;
+            }
+
+            .sidebar-button {
+                flex-direction: column;
+                align-items: center;
+                padding: 8px;
+                margin-bottom: 0;
+            }
+
+            .sidebar-button img {
+                margin-right: 0;
+                margin-bottom: 5px;
+            }
+
+            .content-area {
+                flex-direction: column;
+                width: 95%;
+                margin-left: 0;
+            }
+
+            .profile-container {
+                width: 100%;
+                margin-top: 0;
+                margin-bottom: 20px;
+            }
+
+            .level-container {
+                width: 100%;
+                max-width: none;
+            }
+
+            .profile-header {
+                grid-template-columns: auto 1fr;
+            }
+
+            .profile-info {
+                padding-left: 15px;
+            }
+
+            .profile-actions {
+                flex-direction: row;
+                justify-content: space-around;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <img src="ascendlogo.png" alt="Ascend Logo" class="sidebar-logo">
+        <a href="#" class="sidebar-button">
+            <img src="home.png" alt="Home Icon">
+            Home
+        </a>
+        <a href="#" class="sidebar-button">
+            <img src="search.png" alt="Search Icon">
+            Search
+        </a>
+        <a href="#" class="sidebar-button">
+            <img src="messages.png" alt="Messages Icon">
+            Messages
+        </a>
+        <a href="#" class="sidebar-button">
+            <img src="post.png" alt="Post Icon">
+            Post
+        </a>
+    </div>
+    <div class="content-area">
+        <div class="profile-container">
+            <div class="profile-header">
+                <div class="profile-pic-container">
+                    <img id="profile-picture" src="default-avatar.png" alt="Profile Picture" class="profile-pic">
+                </div>
+                <div class="profile-info">
+                    <h1 id="profile-username" class="username"></h1>
+                    <div class="profile-stats">
+                        <span class="stat-item"><span id="post-count">0</span> <span class="stat-count">posts</span></span>
+                        <span class="stat-item"><span id="follower-count">0</span> <span class="stat-count">followers</span></span>
+                        <span class="stat-item"><span id="following-count">0</span> <span class="stat-count">following</span></span>
+                    </div>
+                    <div id="profile-biography" class="profile-bio"></div>
+                </div>
+                <div class="profile-actions">
+                    <button class="primary">Follow</button>
+                    <button>Message</button>
+                </div>
+            </div>
+            <nav class="profile-nav">
+                <div class="nav-item active" onclick="showContent('posts')">POSTS</div>
+            </nav>
+            <div id="posts-section" class="posts-grid">
+                </div>
+        </div>
+        <div class="level-container">
+            <h2 class="level-header">Your Level</h2>
+            <div class="level-bar-container">
+                <div id="level-bar" class="level-bar"></div>
+            </div>
+            <p id="level-text" class="level-text"></p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Retrieve data from localStorage
+            const username = localStorage.getItem('username');
+            const bio = localStorage.getItem('bio');
+            const profilePic = localStorage.getItem('profilePic') || 'default-avatar.png';
+
+            document.getElementById('profile-username').textContent = username || 'User Name';
+            document.getElementById('profile-biography').textContent = bio || '';
+            document.getElementById('profile-picture').src = profilePic;
+
+            document.getElementById('post-count').textContent = '0';
+            document.getElementById('follower-count').textContent = '0';
+            document.getElementById('following-count').textContent = '0';
+
+            // Example level data (replace with actual user level and exp)
+            const userLevel = 5;
+            const currentExp = 75;
+            const maxExpForLevel = 100; // Example max EXP for this level
+            const levelPercentage = (currentExp / maxExpForLevel) * 100;
+
+            document.getElementById('level-bar').style.width = `${levelPercentage}%`;
+            document.getElementById('level-text').textContent = `Level ${userLevel} (${currentExp}/${maxExpForLevel} EXP)`;
+
+            // Example of how you might fetch and display posts (replace with your actual API call)
+            // fetch('/api/users/' + username + '/posts')
+            //     .then(response => response.json())
+            //     .then(posts => {
+            //         const postsGrid = document.getElementById('posts-section');
+            //         posts.forEach(post => {
+            //             const postItem = document.createElement('div');
+            //             postItem.classList.add('post-item');
+            //             const img = document.createElement('img');
+            //             img.src = post.imageUrl;
+            //             img.alt = 'Post';
+            //             postItem.appendChild(img);
+            //             postsGrid.appendChild(postItem);
+            //         });
+            //     });
+        });
+
+        function showContent(section) {
+            document.getElementById('posts-section').style.display = 'none';
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+            document.getElementById(section + '-section').style.display = 'grid';
+            document.querySelector(`.nav-item:contains('${section.toUpperCase()}')`).classList.add('active');
+        }
+        showContent('posts');
+    </script>
+</body>
+</html>

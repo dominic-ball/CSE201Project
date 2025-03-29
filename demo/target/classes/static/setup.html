@@ -149,41 +149,38 @@
         function previewImage(event) {
             const preview = document.getElementById("profile-preview");
             const file = event.target.files[0];
+    
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function() {
                     preview.src = reader.result;
+                    localStorage.setItem("profilePic", reader.result); // Save profile picture
                 }
                 reader.readAsDataURL(file);
             }
         }
-
-        // Retrieve the username from the URL parameters
+    
         const params = new URLSearchParams(window.location.search);
         const username = params.get("username");
-
+    
         if (username) {
             document.getElementById("username").value = username;
             document.getElementById("display-username").textContent = username;
         }
-
-        // Handle setup form submission
+    
         document.getElementById("setup-form").addEventListener("submit", function(event) {
             event.preventDefault();
-
-            const formData = new FormData(this);
-
-            fetch("/api/users/setup", {
-                method: "POST",
-                body: formData
-            })
-            .then(res => res.text())
-            .then(data => {
-                alert(data);
-                // Redirect or load the next step here
-                window.location.href = `dashboard.html?username=${username}`;
-            });
+    
+            const bio = document.getElementById("bio").value;
+    
+            // Save user data in localStorage
+            localStorage.setItem("username", username);
+            localStorage.setItem("bio", bio);
+    
+            // Redirect to Profile Page
+            window.location.href = "profile.html";
         });
     </script>
+    
 </body>
 </html>

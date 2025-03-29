@@ -92,7 +92,7 @@
     <div class="main">
         <img src="ascendlogo.png" alt="Ascend Logo" class="logo">
         <h1>Log In</h1>
-        <form action="/login_action.php">
+        <form id="login-form">
             <input type="text" name="username" placeholder="Username" required>
             <input type="password" name="password" placeholder="Password" required>
             <button type="submit">Log In</button>
@@ -100,7 +100,7 @@
         <p>Not registered? <a href="home.html">Create an account</a></p>
     </div>
     <script>
-        document.getElementById("login-form").addEventListener("submit", function(event) {
+        document.querySelector("form").addEventListener("submit", function(event) {
             event.preventDefault();
     
             const username = this.username.value;
@@ -117,7 +117,11 @@
             .then(data => {
                 alert(data);
                 if (data.includes("successful")) {
-                    window.location.href = "setup.html?username=" + username;
+                    // Store username for profile page
+                    localStorage.setItem("username", username);
+    
+                    // Redirect to Profile Page
+                    window.location.href = "profile.html";
                 }
             });
         });
