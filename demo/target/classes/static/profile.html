@@ -408,3 +408,108 @@
     </script>
 </body>
 </html>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Profile | Ascend</title>
+  <style>
+    body {
+      background-color: #2e2e2e;
+      color: white;
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    .profile-container {
+      background-color: #3a3a3a;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.4);
+      width: 400px;
+      text-align: center;
+    }
+
+    .pfp {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 3px solid #ffb400;
+      object-fit: cover;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 28px;
+      color: #ffb400;
+    }
+
+    .bio {
+      margin-top: 15px;
+      font-size: 16px;
+      color: #ddd;
+    }
+
+    .level {
+      margin-top: 25px;
+      background-color: #555;
+      border-radius: 10px;
+      overflow: hidden;
+      height: 20px;
+      width: 80%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .xp-bar {
+      background-color: #ffb400;
+      height: 100%;
+      width: 40%; /* Change this value later with real XP logic */
+    }
+
+    .xp-label {
+      margin-top: 8px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="profile-container">
+    <img src="default-avatar.png" alt="Profile Picture" id="profile-pic" class="pfp"/>
+    <h1 id="username-display">Username</h1>
+    <p class="bio" id="bio-text">This user hasn't written a bio yet.</p>
+
+    <div class="level">
+      <div class="xp-bar" id="xp-bar"></div>
+    </div>
+    <div class="xp-label">Level 1 (40% XP)</div>
+  </div>
+
+  <script>
+    // Grab username from URL
+    const params = new URLSearchParams(window.location.search);
+    const username = params.get("username");
+
+    if (!username) {
+      alert("No user found in URL.");
+    } else {
+      fetch(`/api/users/${username}`)
+        .then(res => res.json())
+        .then(user => {
+          document.getElementById("username-display").textContent = user.username;
+          document.getElementById("bio-text").textContent = user.bio || "This user hasn't written a bio yet.";
+          document.getElementById("profile-pic").src = user.profilePicPath || "default-avatar.png";
+          // XP bar placeholder — adjust dynamically later
+          // document.getElementById("xp-bar").style.width = user.xp + "%";
+        })
+        .catch(err => {
+          console.error(err);
+          alert("Failed to load user profile.");
+        });
+    }
+  </script>
+</body>
+</html>

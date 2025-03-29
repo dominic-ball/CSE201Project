@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dashboard</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+      background-color: #2e2e2e;
+      color: white;
+      display: flex;
+      height: 100vh;
+    }
+
+    .sidebar-left, .sidebar-right {
+      width: 20%;
+      background-color: #3a3a3a;
+      padding: 20px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .sidebar-left {
+      border-right: 2px solid #444;
+    }
+
+    .sidebar-right {
+      border-left: 2px solid #444;
+      position: relative;
+    }
+
+    .main-content {
+      width: 60%;
+      padding: 20px;
+      box-sizing: border-box;
+      overflow-y: auto;
+    }
+
+    .pfp {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background-color: #555;
+      object-fit: cover;
+      cursor: pointer;
+    }
+
+    .dm-title {
+      font-weight: bold;
+      color: #ffb400;
+      margin-bottom: 10px;
+    }
+
+    .dm-list {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .dm-user {
+      padding: 10px;
+      background-color: #2e2e2e;
+      border: 1px solid #555;
+      border-radius: 5px;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .dm-user:hover {
+      background-color: #444;
+    }
+
+    .post {
+      background-color: #3a3a3a;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+    }
+
+    .post img {
+      max-width: 100%;
+      border-radius: 5px;
+      margin-top: 10px;
+    }
+
+    .xp-container {
+      width: 100%;
+      margin-top: auto;
+      text-align: center;
+    }
+
+    .xp-bar {
+      background-color: #555;
+      border-radius: 10px;
+      height: 20px;
+      width: 100%;
+      margin-top: 10px;
+      overflow: hidden;
+    }
+
+    .xp-fill {
+      background-color: #ffb400;
+      width: 40%;
+      height: 100%;
+    }
+
+    .user-level {
+      margin-top: 5px;
+      font-size: 14px;
+    }
+
+    .top-right-pfp {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar-left">
+    <div class="pfp"></div>
+    <div class="dm-title">DMs</div>
+    <div class="dm-list" id="dm-list">
+      
+    </div>
+  </div>
+
+  <div class="main-content" id="post-feed">
+    
+  </div>
+
+  <div class="sidebar-right">
+    <!-- PFP in top-right corner that links to profile -->
+    <img
+      src="default-avatar.png"
+      alt="Profile Picture"
+      class="pfp top-right-pfp"
+      id="profile-pic"
+      onclick="goToProfile()"
+    />
+
+    <div class="xp-container">
+      <div>XP Progress</div>
+      <div class="xp-bar">
+        <div class="xp-fill"></div>
+      </div>
+      <div class="user-level">Level 12</div>
+    </div>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const username = params.get("username");
+    if (username) {
+      localStorage.setItem("username", username);
+  
+      // grab user data from backend
+      fetch(`/api/users/${username}`)
+        .then(res => res.json())
+        .then(user => {
+          // update profile pic if set
+          if (user.profilePicPath) {
+            document.getElementById("profile-pic").src = user.profilePicPath;
+          }
+        })
+        .catch(err => {
+          console.error("Failed to load user data:", err);
+        });
+    }
+  
+    function goToProfile() {
+      const username = localStorage.getItem("username");
+      if (username) {
+        window.location.href = `profile.html?username=${username}`;
+      } else {
+        alert("No user logged in.");
+      }
+    }
+  </script>
+  
+</body>
+</html>
