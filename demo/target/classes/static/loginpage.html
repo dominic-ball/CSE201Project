@@ -120,12 +120,13 @@
                     // Store username for profile page
                     localStorage.setItem("username", username);
     
-                    // Redirect to Profile Page
-                    window.location.href = "profile.html";
+                    //  Redirect with username in URL
+                    window.location.href = "profile.html?username=" + username;
                 }
             });
         });
     </script>
+    
     
 </body>
 </html>

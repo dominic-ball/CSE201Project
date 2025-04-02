@@ -17,8 +17,14 @@ public class UserService {
     private UserRepository userRepository;
 
     public User register(User user) {
-        return userRepository.save(user);
+        try {
+            return userRepository.save(user);
+        } catch (Exception e) {
+            e.printStackTrace(); // logs the actual issue to console
+            return null;
+        }
     }
+    
 
     public User login(String username, String password) {
         return userRepository.findByUsername(username)
