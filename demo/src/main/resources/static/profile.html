@@ -301,7 +301,7 @@ number of followers, a button to allow messaging, as well as viewing posts. -->
   <script>
     const params = new URLSearchParams(window.location.search);
     const username = params.get("username");
-
+  
     if (!username) {
       alert("Username missing. Please log in again.");
       window.location.href = "loginpage.html"; 
@@ -312,18 +312,27 @@ number of followers, a button to allow messaging, as well as viewing posts. -->
           return res.json();
         })
         .then(user => {
+          console.log("User profile data:", user); // 🔍 Log entire user object
+          console.log("profilePicPath:", user.profilePicPath); // 🔍 Log the image data
+  
           document.getElementById("profile-username").textContent = user.username;
           document.getElementById("profile-biography").textContent = user.bio || "No bio provided.";
           document.getElementById("level-bar").style.width = (user.xp || 0) + "%";
           document.getElementById("level-text").textContent = "Level " + (user.level || 1);
-          document.getElementById("profile-picture").src = user.profilePicPath || "default-avatar.png";
+  
+          const picElement = document.getElementById("profile-picture");
+          if (user.profilePicPath && user.profilePicPath.startsWith("data:image")) {
+            picElement.src = user.profilePicPath;
+          } else {
+            picElement.src = "default-avatar.png";
+          }
         })
         .catch(err => {
           console.error("Failed to load user data:", err);
           alert("User not found.");
         });
     }
-
+  
     function goToDashboard() {
       const username = new URLSearchParams(window.location.search).get("username");
       if (username) {
@@ -333,5 +342,6 @@ number of followers, a button to allow messaging, as well as viewing posts. -->
       }
     }
   </script>
+  
 </body>
 </html>

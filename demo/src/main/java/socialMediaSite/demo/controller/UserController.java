@@ -9,6 +9,8 @@
 package socialMediaSite.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import socialMediaSite.demo.model.User;
@@ -96,5 +98,21 @@ public class UserController {
     public User getUser(@PathVariable String username) {
         return userService.findByUsername(username).orElse(null);
     }
+    /** 
+    @PostMapping("/api/users/update")
+        public ResponseEntity<?> updateProfile(@RequestBody User updatedUser) {
+        Optional<User> userOpt = UserRepository.findByUsername(updatedUser.getUsername());
+
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            user.setBio(updatedUser.getBio());
+            user.setProfilePicPath(updatedUser.getProfilePicPath()); //  store image
+            userRepository.save(user);
+            return ResponseEntity.ok("Profile updated");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
+    }
+    **/
 
 }

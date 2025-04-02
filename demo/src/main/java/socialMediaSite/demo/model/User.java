@@ -22,8 +22,14 @@ public class User {
     private String bio;
     private String profilePicture;
     private String profilePicPath;
+    private double xp;
 
-
+    public double getXp() {
+        return xp;
+    }
+    public void setXp(double xp) {
+        this.xp = xp;
+    }
     //getters and setters
     public String getUsername() {
         return username;

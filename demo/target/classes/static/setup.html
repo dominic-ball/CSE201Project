@@ -151,18 +151,19 @@
 
     <script>
         function previewImage(event) {
-          const preview = document.getElementById("profile-preview");
-          const file = event.target.files[0];
-      
-          if (file) {
-            const reader = new FileReader();
-            reader.onload = function () {
-              preview.src = reader.result;
-              localStorage.setItem("profilePic", reader.result); // Save profile picture
-            };
-            reader.readAsDataURL(file);
-          }
+            const preview = document.getElementById("profile-preview");
+            const file = event.target.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function () {
+                preview.src = reader.result;
+                preview.dataset.imageData = reader.result; // ✅ store image data here
+                };
+                reader.readAsDataURL(file);
+            }
         }
+
       
         const params = new URLSearchParams(window.location.search);
         const username = params.get("username");
@@ -173,18 +174,39 @@
         }
       
         document.getElementById("setup-form").addEventListener("submit", function (event) {
-          event.preventDefault();
-      
-          const bio = document.getElementById("bio").value;
-      
-          // Save user data in localStorage
-          localStorage.setItem("username", username);
-          localStorage.setItem("bio", bio);
-      
-          
-          window.location.href = `profile.html?username=${username}`;
-        });
-      </script>
+  event.preventDefault();
+
+  const bio = document.getElementById("bio").value;
+  const profilePicData = document.getElementById("profile-preview").dataset.imageData || ""; // ✅ use saved image
+  const username = new URLSearchParams(window.location.search).get("username");
+
+  // Save to localStorage 
+  localStorage.setItem("username", username);
+  localStorage.setItem("bio", bio);
+
+  // Sends to backend
+  fetch("http://localhost:8080/api/users/update", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      username,
+      bio,
+      profilePicPath: profilePicData //  sends image
+    })
+  })
+  .then(res => {
+    if (!res.ok) throw new Error("Profile update failed");
+    window.location.href = `profile.html?username=${username}`;
+  })
+  .catch(err => {
+    console.error(err);
+    alert("Error saving your profile info.");
+  });
+});
+
+ </script>
       
     
 </body>
