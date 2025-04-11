@@ -3,7 +3,7 @@
  * launches backend server 
  */
 
-package socialMediaSite.demo;
+package socialMediaSite.demo.MainApplication;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

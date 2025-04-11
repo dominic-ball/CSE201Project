@@ -6,7 +6,7 @@
  * Maps requests to /uploaded-pfps/** to the file system directory /uploaded-pfps/
  */
 
-package socialMediaSite.demo;
+package socialMediaSite.demo.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
