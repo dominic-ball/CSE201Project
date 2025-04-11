@@ -2,7 +2,7 @@
  * handles DB queries by ID or username
  */
 
-package socialMediaSite.repository; 
+package socialMediaSite.demo.repository; 
 
 import socialMediaSite.demo.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;

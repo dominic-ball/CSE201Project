@@ -1,4 +1,4 @@
-package socialMediaSite.repository;
+package socialMediaSite.demo.repository;
 
 public class CommentRepository {
     

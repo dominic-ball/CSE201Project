@@ -5,7 +5,8 @@
 package socialMediaSite.demo.service;
 
 import socialMediaSite.demo.model.User;
-import socialMediaSite.repository.UserRepository;
+import socialMediaSite.demo.repository.UserRepository;
+
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
