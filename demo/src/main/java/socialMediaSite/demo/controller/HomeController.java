@@ -10,8 +10,9 @@ public class HomeController {
 
     @GetMapping
     public String sayHello() {
-        return "<script>window.location.href = '/home.html';</script>";
-    }
+        return "<script>window.location.href = '/loginpage.html';</script>";
+    }   
+
 
     @GetMapping("/sign-up")
     public String loginClicked() {
