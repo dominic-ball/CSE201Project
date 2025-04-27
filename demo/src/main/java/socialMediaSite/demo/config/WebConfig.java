@@ -3,25 +3,22 @@
  * 
  * Configures Spring to serve uploaded profile pictures from a folder.
  *
- * Maps requests to /uploaded-pfps/** to the file system directory /uploaded-pfps/
+ * Maps requests to /uploads/** to the file system directory /uploads/
  */
 
-package socialMediaSite.demo.config;
+ package socialMediaSite.demo.config;
 
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-
-
-
-@Configuration
-public class WebConfig implements WebMvcConfigurer {
-
-    @SuppressWarnings("null")
-    @Override
-    public void addResourceHandlers( ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/uploaded-pfps/**")
-                .addResourceLocations("file:uploaded-pfps/");
-    }
-}
+ import org.springframework.context.annotation.Configuration;
+ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+ 
+ @Configuration
+ public class WebConfig implements WebMvcConfigurer {
+ 
+     @Override
+     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+         registry.addResourceHandler("/uploads/**")
+                 .addResourceLocations("file:" + System.getProperty("user.dir") + "/uploads/");
+     }
+ }
+ 

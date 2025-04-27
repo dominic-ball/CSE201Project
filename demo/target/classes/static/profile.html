@@ -1,5 +1,3 @@
-<!--Page shwoing off a users profile, must display bio, and PfP as well as level, 
-number of followers, a button to allow messaging, as well as viewing posts. -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,7 +5,6 @@ number of followers, a button to allow messaging, as well as viewing posts. -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Profile - Ascend</title>
   <style>
-    
     body {
       font-family: sans-serif;
       background-color: #2e2e2e;
@@ -120,10 +117,6 @@ number of followers, a button to allow messaging, as well as viewing posts. -->
       font-size: 0.9em;
     }
 
-    .stat-count {
-      font-weight: normal;
-    }
-
     .profile-bio {
       font-size: 0.95em;
       margin-bottom: 10px;
@@ -190,14 +183,18 @@ number of followers, a button to allow messaging, as well as viewing posts. -->
       width: 100%;
       aspect-ratio: 1/1;
       overflow: hidden;
-      border-radius: 5px;
-    }
-
-    .post-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
+      border-radius: 10px;
+      background-color: #444;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      font-size: 0.9em;
+      text-align: center;
+      word-break: break-word;
+      margin: 5px;
+      border: 1-x solid #666;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
     }
 
     .level-container {
@@ -236,26 +233,41 @@ number of followers, a button to allow messaging, as well as viewing posts. -->
       font-size: 0.9em;
       text-align: center;
     }
+
+    /* Create Post button hover effect */
+    #create-post-button {
+      padding: 10px 20px;
+      background-color: #ffb400;
+      border: none;
+      border-radius: 12px;
+      color: #2e2e2e;
+      font-weight: bold;
+      font-size: 0.95em;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-top: 10px;
+    }
+
+    #create-post-button:hover {
+      background-color: #e0a200;
+    }
   </style>
 </head>
+
 <body>
   <div class="sidebar">
     <img src="ascendlogo.png" alt="Ascend Logo" class="sidebar-logo" />
     <a class="sidebar-button" onclick="goToDashboard()">
-      <img src="home.png" alt="Home Icon" />
-      Home
+      <img src="home.png" alt="Home Icon" /> Home
     </a>
     <a href="#" class="sidebar-button">
-      <img src="search.png" alt="Search Icon" />
-      Search
+      <img src="search.png" alt="Search Icon" /> Search
     </a>
     <a href="#" class="sidebar-button">
-      <img src="messages.png" alt="Messages Icon" />
-      Messages
+      <img src="messages.png" alt="Messages Icon" /> Messages
     </a>
     <a href="#" class="sidebar-button">
-      <img src="post.png" alt="Post Icon" />
-      Post
+      <img src="post.png" alt="Post Icon" /> Post
     </a>
   </div>
 
@@ -284,8 +296,17 @@ number of followers, a button to allow messaging, as well as viewing posts. -->
         <div class="nav-item active">POSTS</div>
       </nav>
 
+      <div style="text-align: center; margin: 10px;">
+        <button id="create-post-button">Create Post</button>
+      </div>
+
+      <div id="post-creator" style="display: none; margin: 10px; text-align: center;">
+        <textarea id="post-content" rows="4" cols="50" placeholder="What's on your mind?" style="margin-bottom: 10px;"></textarea><br>
+        <button id="submit-post-btn" class="primary">Submit Post</button>
+      </div>
+
       <div id="posts-section" class="posts-grid">
-        <!-- Grid of post images will go here -->
+        <!-- User's posts will go here -->
       </div>
     </div>
 
@@ -298,50 +319,111 @@ number of followers, a button to allow messaging, as well as viewing posts. -->
     </div>
   </div>
 
-  <script>
-    const params = new URLSearchParams(window.location.search);
-    const username = params.get("username");
-  
-    if (!username) {
-      alert("Username missing. Please log in again.");
-      window.location.href = "loginpage.html"; 
+<script>
+const params = new URLSearchParams(window.location.search);
+const username = params.get("username");
+
+if (!username) {
+  alert("Username missing. Please log in again.");
+  window.location.href = "loginpage.html"; 
+} else {
+  fetch(`/api/users/${username}`)
+    .then(res => {
+      if (!res.ok) throw new Error("User not found");
+      return res.json();
+    })
+    .then(user => {
+      document.getElementById("profile-username").textContent = user.username;
+      document.getElementById("profile-biography").textContent = user.bio || "No bio provided.";
+      document.getElementById("level-bar").style.width = (user.xp || 0) + "%";
+      document.getElementById("level-text").textContent = "Level " + (user.level || 1);
+
+      loadPosts();
+    })
+    .catch(err => {
+      console.error("Failed to load user data:", err);
+      alert("User not found.");
+    });
+}
+
+function goToDashboard() {
+  const username = new URLSearchParams(window.location.search).get("username");
+  if (username) {
+    window.location.href = `dashboard.html?username=${username}`;
+  } else {
+    alert("Username missing. Cannot redirect to dashboard.");
+  }
+}
+
+const createPostBtn = document.getElementById('create-post-button');
+const postCreator = document.getElementById('post-creator');
+const submitPostBtn = document.getElementById('submit-post-btn');
+
+createPostBtn.addEventListener('click', () => {
+  postCreator.style.display = 'block';
+});
+
+submitPostBtn.addEventListener('click', async () => {
+  const content = document.getElementById('post-content').value;
+
+  if (!content.trim()) {
+    alert('Post cannot be empty!');
+    return;
+  }
+
+  const post = {
+    content: content,
+    username: username,
+    timestamp: new Date().toISOString()
+  };
+
+  try {
+    const response = await fetch('/api/posts/create', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(post),
+    });
+
+    if (response.ok) {
+      alert('Post created!');
+      document.getElementById('post-content').value = '';
+      postCreator.style.display = 'none';
+      loadPosts();
     } else {
-      fetch(`/api/users/${username}`)
-        .then(res => {
-          if (!res.ok) throw new Error("User not found");
-          return res.json();
-        })
-        .then(user => {
-          console.log("User profile data:", user); // 🔍 Log entire user object
-          console.log("profilePicPath:", user.profilePicPath); // 🔍 Log the image data
-  
-          document.getElementById("profile-username").textContent = user.username;
-          document.getElementById("profile-biography").textContent = user.bio || "No bio provided.";
-          document.getElementById("level-bar").style.width = (user.xp || 0) + "%";
-          document.getElementById("level-text").textContent = "Level " + (user.level || 1);
-  
-          const picElement = document.getElementById("profile-picture");
-          if (user.profilePicPath && user.profilePicPath.startsWith("data:image")) {
-            picElement.src = user.profilePicPath;
-          } else {
-            picElement.src = "default-avatar.png";
-          }
-        })
-        .catch(err => {
-          console.error("Failed to load user data:", err);
-          alert("User not found.");
-        });
+      alert('Failed to create post.');
     }
-  
-    function goToDashboard() {
-      const username = new URLSearchParams(window.location.search).get("username");
-      if (username) {
-        window.location.href = `dashboard.html?username=${username}`;
-      } else {
-        alert("Username missing. Cannot redirect to dashboard.");
-      }
+  } catch (error) {
+    console.error('Error creating post:', error);
+  }
+});
+
+async function loadPosts() {
+  try {
+    const response = await fetch(`/api/posts/user/${username}`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch posts');
     }
-  </script>
-  
+    const posts = await response.json();
+    console.log('Loaded posts:', posts);
+
+    const postsSection = document.getElementById('posts-section');
+    postsSection.innerHTML = '';
+
+    posts.forEach(post => {
+      const postDiv = document.createElement('div');
+      postDiv.className = 'post-item';
+      postDiv.textContent = post.content;
+      postsSection.appendChild(postDiv);
+    });
+
+    document.getElementById('post-count').textContent = posts.length;
+  } catch (error) {
+    console.error('Error loading posts:', error);
+  }
+}
+
+</script>
 </body>
 </html>
