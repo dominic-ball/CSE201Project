@@ -1,4 +1,4 @@
-<!--First page a user sees when coming to the site. Allows the registration of a new user, redirects to setup.html.-->
+<!--First page a user sees when coming to the site. Allows the registration of a new user, redirects to profile.-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -108,31 +108,34 @@
     document.getElementById("register-form").addEventListener("submit", function(event) {
       event.preventDefault();
 
-      const email = this.email.value;
       const username = this.username.value;
       const password = this.password.value;
 
-      fetch("http://localhost:8080/api/users/register", {
+      fetch("/signup", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/x-www-form-urlencoded"
         },
-        body: JSON.stringify({ email, username, password })
+        body: new URLSearchParams({
+          username: username,
+          password: password
+        })
       })
-      .then(res => {
-        if (!res.ok) {
-          throw new Error("Registration failed");
+      .then(response => {
+        if (response.redirected) {
+          // Save username to localStorage
+          localStorage.setItem("username", username);
+
+          // Redirect to /profile?username=username
+          window.location.href = response.url;
+        } else {
+          return response.text();
         }
-        return res.text();
       })
       .then(data => {
-        alert(data);
-
-        // Save username to localStorage
-        localStorage.setItem("username", username);
-
-        // Redirect to profile setup page with username in URL
-        window.location.href = `setup.html?username=${username}`;
+        if (data) {
+          console.log("Signup response:", data);
+        }
       })
       .catch(err => {
         console.error("Registration error:", err);

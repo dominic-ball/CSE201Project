@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>View Post - Ascend</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #2e2e2e;
+      color: white;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      flex-direction: column;
+    }
+
+    .post-container {
+      background-color: #3a3a3a;
+      border-radius: 15px;
+      padding: 30px;
+      max-width: 600px;
+      width: 100%;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      text-align: center;
+    }
+
+    .post-title {
+      font-size: 2em;
+      margin-bottom: 20px;
+      color: #ffb400;
+    }
+
+    .post-content {
+      font-size: 1.1em;
+      margin-bottom: 20px;
+      white-space: pre-wrap; /* Keeps line breaks */
+    }
+
+    .post-meta {
+      font-size: 0.9em;
+      color: #bbb;
+      margin-bottom: 20px;
+    }
+
+    .back-button {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #ffb400;
+      color: #2e2e2e;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+
+    .back-button:hover {
+      background-color: #e0a200;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="post-container">
+    <h1 class="post-title">${post.title}</h1>
+    <p class="post-content">${post.content}</p>
+    <p class="post-meta">Posted by ${post.author.username} on ${post.createdAt}</p>
+
+    <a href="/profile" class="back-button">← Back to Profile</a>
+  </div>
+
+</body>
+</html>

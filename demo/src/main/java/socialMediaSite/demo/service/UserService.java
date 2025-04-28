@@ -7,6 +7,7 @@ package socialMediaSite.demo.service;
 import socialMediaSite.demo.model.User;
 import socialMediaSite.demo.repository.UserRepository;
 
+import java.lang.foreign.Linker.Option;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,11 @@ public class UserService {
         return userRepository.findByUsername(username)
             .filter(u -> u.getPassword().equals(password))
             .orElse(null);
+    }
+
+    public User getUserByUsername(String username) {
+        Optional<User> userOptional = userRepository.findByUsername(username);
+        return userOptional.orElse(null);
     }
 
     public Optional<User> findByUsername(String username) {

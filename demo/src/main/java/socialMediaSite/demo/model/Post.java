@@ -1,9 +1,8 @@
 package socialMediaSite.demo.model;
-<<<<<<< HEAD
+
 import java.util.ArrayList;
-=======
 import jakarta.persistence.*;
->>>>>>> 4eb063f (Post creation, text only For now)
+
 /**
  * Post class
  * Manage attributes of post
@@ -14,10 +13,8 @@ import jakarta.persistence.Id;
 @Entity
 
 public class Post {
-<<<<<<< HEAD
-
     String caption;
-    String imagePath;
+    // Removed duplicate field declaration for imagePath
     int likes;
     ArrayList<String> comments = new ArrayList<>();
 
@@ -53,7 +50,7 @@ public class Post {
     public ArrayList<String> getComments(){
         return comments;
     }
-=======
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -61,8 +58,8 @@ public class Post {
 
     private String username; //user of who made the post
 
-    private String timestamp;
-
+    private String timestamp; //time of post creation
+    
     private String imagePath; //path to the image
 
     public Post() {
@@ -106,6 +103,4 @@ public class Post {
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
     }
-
->>>>>>> 4eb063f (Post creation, text only For now)
 }

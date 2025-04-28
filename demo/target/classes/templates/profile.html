@@ -193,8 +193,9 @@
       text-align: center;
       word-break: break-word;
       margin: 5px;
-      border: 1-x solid #666;
+      border: 1px solid #666;
       box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+      cursor: pointer;
     }
 
     .level-container {
@@ -234,7 +235,6 @@
       text-align: center;
     }
 
-    /* Create Post button hover effect */
     #create-post-button {
       padding: 10px 20px;
       background-color: #ffb400;
@@ -256,18 +256,18 @@
 
 <body>
   <div class="sidebar">
-    <img src="ascendlogo.png" alt="Ascend Logo" class="sidebar-logo" />
-    <a class="sidebar-button" onclick="goToDashboard()">
-      <img src="home.png" alt="Home Icon" /> Home
+    <img src="/ascendlogo.png" alt="Ascend Logo" class="sidebar-logo" />
+    <a href="/dashboard" class="sidebar-button">
+      <img src="/home.png" alt="Home Icon" /> Home
     </a>
     <a href="#" class="sidebar-button">
-      <img src="search.png" alt="Search Icon" /> Search
+      <img src="/search.png" alt="Search Icon" /> Search
     </a>
     <a href="#" class="sidebar-button">
-      <img src="messages.png" alt="Messages Icon" /> Messages
+      <img src="/messages.png" alt="Messages Icon" /> Messages
     </a>
     <a href="#" class="sidebar-button">
-      <img src="post.png" alt="Post Icon" /> Post
+      <img src="/post.png" alt="Post Icon" /> Post
     </a>
   </div>
 
@@ -275,16 +275,16 @@
     <div class="profile-container">
       <div class="profile-header">
         <div class="profile-pic-container">
-          <img id="profile-picture" src="default-avatar.png" alt="Profile Picture" class="profile-pic" />
+          <img id="profile-picture" src="/default-avatar.png" alt="Profile Picture" class="profile-pic" />
         </div>
         <div class="profile-info">
-          <h1 id="profile-username" class="username"></h1>
+          <h1 class="username" th:text="${user.username}">Username</h1>
           <div class="profile-stats">
-            <span class="stat-item"><span id="post-count">0</span> posts</span>
+            <span class="stat-item"><span th:text="${posts.size()}">0</span> posts</span>
             <span class="stat-item"><span id="follower-count">0</span> followers</span>
             <span class="stat-item"><span id="following-count">0</span> following</span>
           </div>
-          <div id="profile-biography" class="profile-bio"></div>
+          <div class="profile-bio" th:text="${user.bio}">No bio provided.</div>
         </div>
         <div class="profile-actions">
           <button class="primary">Follow</button>
@@ -302,59 +302,30 @@
 
       <div id="post-creator" style="display: none; margin: 10px; text-align: center;">
         <textarea id="post-content" rows="4" cols="50" placeholder="What's on your mind?" style="margin-bottom: 10px;"></textarea><br>
+        <input type="hidden" id="hidden-username" th:value="${user.username}" />
+
         <button id="submit-post-btn" class="primary">Submit Post</button>
       </div>
 
       <div id="posts-section" class="posts-grid">
-        <!-- User's posts will go here -->
+        <div th:each="post : ${posts}" class="post-item" 
+             th:text="${post.content}" 
+             th:onclick="'window.location.href=\'/posts/' + ${post.id} + '\''">
+        </div>
       </div>
     </div>
 
     <div class="level-container">
       <h2 class="level-header">Your Level</h2>
       <div class="level-bar-container">
-        <div id="level-bar" class="level-bar"></div>
+        <div id="level-bar" class="level-bar" th:style="'width:' + ${user.xp} + '%'"></div>
       </div>
-      <p id="level-text" class="level-text"></p>
+      
+      <p id="level-text" class="level-text" th:text="'Level ' + ${user.level}">Level 1</p>
     </div>
   </div>
 
 <script>
-const params = new URLSearchParams(window.location.search);
-const username = params.get("username");
-
-if (!username) {
-  alert("Username missing. Please log in again.");
-  window.location.href = "loginpage.html"; 
-} else {
-  fetch(`/api/users/${username}`)
-    .then(res => {
-      if (!res.ok) throw new Error("User not found");
-      return res.json();
-    })
-    .then(user => {
-      document.getElementById("profile-username").textContent = user.username;
-      document.getElementById("profile-biography").textContent = user.bio || "No bio provided.";
-      document.getElementById("level-bar").style.width = (user.xp || 0) + "%";
-      document.getElementById("level-text").textContent = "Level " + (user.level || 1);
-
-      loadPosts();
-    })
-    .catch(err => {
-      console.error("Failed to load user data:", err);
-      alert("User not found.");
-    });
-}
-
-function goToDashboard() {
-  const username = new URLSearchParams(window.location.search).get("username");
-  if (username) {
-    window.location.href = `dashboard.html?username=${username}`;
-  } else {
-    alert("Username missing. Cannot redirect to dashboard.");
-  }
-}
-
 const createPostBtn = document.getElementById('create-post-button');
 const postCreator = document.getElementById('post-creator');
 const submitPostBtn = document.getElementById('submit-post-btn');
@@ -373,7 +344,7 @@ submitPostBtn.addEventListener('click', async () => {
 
   const post = {
     content: content,
-    username: username,
+    username: document.getElementById('hidden-username').value,  
     timestamp: new Date().toISOString()
   };
 
@@ -389,8 +360,7 @@ submitPostBtn.addEventListener('click', async () => {
     if (response.ok) {
       alert('Post created!');
       document.getElementById('post-content').value = '';
-      postCreator.style.display = 'none';
-      loadPosts();
+      window.location.reload();
     } else {
       alert('Failed to create post.');
     }
@@ -398,32 +368,6 @@ submitPostBtn.addEventListener('click', async () => {
     console.error('Error creating post:', error);
   }
 });
-
-async function loadPosts() {
-  try {
-    const response = await fetch(`/api/posts/user/${username}`);
-    if (!response.ok) {
-      throw new Error('Failed to fetch posts');
-    }
-    const posts = await response.json();
-    console.log('Loaded posts:', posts);
-
-    const postsSection = document.getElementById('posts-section');
-    postsSection.innerHTML = '';
-
-    posts.forEach(post => {
-      const postDiv = document.createElement('div');
-      postDiv.className = 'post-item';
-      postDiv.textContent = post.content;
-      postsSection.appendChild(postDiv);
-    });
-
-    document.getElementById('post-count').textContent = posts.length;
-  } catch (error) {
-    console.error('Error loading posts:', error);
-  }
-}
-
 </script>
 </body>
 </html>

@@ -23,6 +23,7 @@ public class User {
     private String profilePicture;
     private String profilePicPath;
     private double xp;
+    private int level;
 
     public double getXp() {
         return xp;
@@ -77,6 +78,13 @@ public class User {
     
     public void setProfilePicPath(String profilePicPath) {
         this.profilePicPath = profilePicPath;
+    }
+    
+    public int getLevel() {
+      return level;
+    }
+    public void setLevel(int level) {
+       this.level = level;
     }
     
 }
