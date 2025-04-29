@@ -67,9 +67,14 @@
 <body>
 
   <div class="post-container">
-    <h1 class="post-title">${post.title}</h1>
-    <p class="post-content">${post.content}</p>
-    <p class="post-meta">Posted by ${post.author.username} on ${post.createdAt}</p>
+    <h1 class="post-title" th:text="${post.title} ?: 'No Title'"></h1>
+
+    <p class="post-content" th:text="${post.content} ?: 'No content available.'"></p>
+
+    <p class="post-meta">
+      Posted by <span th:text="${post.username} ?: 'Unknown'"></span> 
+      on <span th:text="${post.timestamp} ?: 'Unknown time'"></span>
+    </p>
 
     <a href="/profile" class="back-button">← Back to Profile</a>
   </div>

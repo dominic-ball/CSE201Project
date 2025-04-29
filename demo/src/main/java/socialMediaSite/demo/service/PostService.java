@@ -12,8 +12,12 @@ public class PostService {
     private PostRepository postRepository;
 
     public Post createPost(Post post) {
+        if (post.getTitle() == null || post.getTitle().isEmpty()) {
+            post.setTitle(post.getUsername() + "'s post");
+        }
         return postRepository.save(post);
     }
+    
 
     public List<Post> getPostsByUsername(String username) {
         return postRepository.findByUsername(username);
