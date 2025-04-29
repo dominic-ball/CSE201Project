@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Suggested Friends - Ascend</title>
+  <style>
+    /* Basic Styles for the Suggested Friends Page */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+      display: flex;
+    }
+
+    .sidebar {
+      width: 200px;
+      background-color: #3a3a3a;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      height: 100vh;
+      box-sizing: border-box;
+      position: fixed;
+      top: 0;
+      left: 0;
+    }
+    .sidebar-logo {
+      width: 80px;
+      margin-bottom: 30px;
+    }
+    .sidebar-button {
+      display: flex;
+      align-items: center;
+      padding: 10px 15px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      text-decoration: none;
+      color: white;
+      width: 100%;
+      box-sizing: border-box;
+      cursor: pointer;
+    }
+    .sidebar-button:hover {
+      background-color: #444;
+    }
+    .sidebar-button img {
+      width: 20px;
+      margin-right: 10px;
+    }
+
+    .content-area {
+      margin-left: 250px;
+      width: 100%;
+      padding: 20px;
+    }
+
+    .suggested-friends-header {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    .friend-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .friend-item {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .friend-item h3 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .friend-item button {
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .friend-item button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="sidebar">
+    <img src="/ascendlogo.png" alt="Ascend Logo" class="sidebar-logo" />
+    <a href="/dashboard" class="sidebar-button">
+      <img src="/home.png" alt="Home Icon" /> Home
+    </a>
+    <a href="profile.html" class="sidebar-button">
+      <img src="/profile.png" alt="Search Icon" /> Profile
+    </a>  
+    
+    <a href="#" class="sidebar-button">
+      <img src="/messages.png" alt="Messages Icon" /> Messages
+    </a>
+    <a href="#" class="sidebar-button">
+      <img src="/post.png" alt="Post Icon" /> Post
+    </a>
+  </div>
+
+  <!-- Content Section -->
+  <div class="content-area">
+    <h1 class="suggested-friends-header">Suggested Friends</h1>
+
+    <div class="friend-list" id="friend-list">
+      <!-- John Doe -->
+      <div class="friend-item" onclick="redirectToProfile('templateProfile.html')">
+        <div style="display: flex; align-items: center;">
+          <img src="/profiles/john_doe.jpg" alt="John Doe" style="width: 50px; height: 50px; border-radius: 50%; margin-right: 15px;">
+          <div>
+            <h3>John Doe</h3>
+            <p>Suggested based on common interests</p>
+          </div>
+        </div>
+      </div>
+    
+      <!-- Jane Smith -->
+      <div class="friend-item" onclick="redirectToProfile('janeProfile.html')">
+        <div style="display: flex; align-items: center;">
+          <img src="/profiles/jane_smith.jpg" alt="Jane Smith" style="width: 50px; height: 50px; border-radius: 50%; margin-right: 15px;">
+          <div>
+            <h3>Jane Smith</h3>
+            <p>Suggested based on mutual friends</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+
+  <!-- JavaScript to handle sending friend requests -->
+  <script>
+    function redirectToProfile(profilePage) {
+      window.location.href = profilePage;
+    }
+  </script>
+  
+</body>
+</html>

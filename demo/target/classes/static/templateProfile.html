@@ -14,6 +14,7 @@
       display: flex;
       justify-content: center;
     }
+
     .sidebar {
       width: 200px;
       background-color: #3a3a3a;
@@ -27,10 +28,12 @@
       top: 0;
       left: 0;
     }
+
     .sidebar-logo {
       width: 80px;
       margin-bottom: 30px;
     }
+
     .sidebar-button {
       display: flex;
       align-items: center;
@@ -43,13 +46,16 @@
       box-sizing: border-box;
       cursor: pointer;
     }
+
     .sidebar-button:hover {
       background-color: #444;
     }
+
     .sidebar-button img {
       width: 20px;
       margin-right: 10px;
     }
+
     .content-area {
       display: flex;
       justify-content: space-between;
@@ -57,6 +63,7 @@
       max-width: 1200px;
       margin-left: 240px;
     }
+
     .profile-container {
       border-radius: 15px;
       padding: 20px;
@@ -65,6 +72,7 @@
       margin-bottom: 20px;
       background-color: transparent;
     }
+
     .profile-header {
       display: grid;
       grid-template-columns: auto 1fr auto;
@@ -72,6 +80,7 @@
       padding: 20px;
       border-bottom: 1px solid white;
     }
+
     .profile-pic-container {
       width: 100px;
       height: 100px;
@@ -79,38 +88,46 @@
       overflow: hidden;
       border: 3px solid #ffb400;
     }
+
     .profile-pic {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
     }
+
     .profile-info {
       padding-left: 20px;
     }
+
     .username {
       font-size: 1.4em;
       font-weight: bold;
       margin-bottom: 5px;
     }
+
     .profile-stats {
       display: flex;
       gap: 15px;
       margin-bottom: 8px;
     }
+
     .stat-item {
       font-weight: bold;
       font-size: 0.9em;
     }
+
     .profile-bio {
       font-size: 0.95em;
       margin-bottom: 10px;
     }
+
     .profile-actions {
       display: flex;
       flex-direction: column;
       gap: 8px;
     }
+
     .profile-actions button {
       padding: 8px 15px;
       border-radius: 5px;
@@ -121,23 +138,28 @@
       font-size: 0.9em;
       font-weight: bold;
     }
+
     .profile-actions button.primary {
       background-color: #ffb400;
       color: #2e2e2e;
       border: none;
     }
+
     .profile-actions button:hover {
       background-color: #444;
     }
+
     .profile-actions button.primary:hover {
       background-color: #e0a200;
     }
+
     .profile-nav {
       display: flex;
       justify-content: center;
       border-bottom: 1px solid white;
       padding: 10px 0;
     }
+
     .nav-item {
       padding: 8px 0;
       cursor: pointer;
@@ -145,15 +167,18 @@
       color: #ddd;
       font-size: 0.9em;
     }
+
     .nav-item.active {
       color: #ffb400;
     }
+
     .posts-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
       gap: 5px;
       padding: 10px;
     }
+
     .post-item {
       width: 100%;
       aspect-ratio: 1/1;
@@ -172,6 +197,7 @@
       box-shadow: 0 2px 5px rgba(0,0,0,0.3);
       cursor: pointer;
     }
+
     .level-container {
       width: 30%;
       max-width: 300px;
@@ -180,12 +206,14 @@
       padding: 20px;
       margin-bottom: 20px;
     }
+
     .level-header {
       font-size: 1.2em;
       font-weight: bold;
       margin-bottom: 10px;
       text-align: center;
     }
+
     .level-bar-container {
       background-color: #555;
       border-radius: 5px;
@@ -194,16 +222,19 @@
       margin-bottom: 10px;
       overflow: hidden;
     }
+
     .level-bar {
       background-image: linear-gradient(to right, #ffb400, #f08a00);
       height: 100%;
       width: 0%;
       border-radius: 5px;
     }
+
     .level-text {
       font-size: 0.9em;
       text-align: center;
     }
+
     #create-post-button {
       padding: 10px 20px;
       background-color: #ffb400;
@@ -216,29 +247,21 @@
       transition: background-color 0.3s ease;
       margin-top: 10px;
     }
+
     #create-post-button:hover {
       background-color: #e0a200;
     }
   </style>
 </head>
 
-<div class="sidebar">
-  <img src="/ascendlogo.png" alt="Ascend Logo" class="sidebar-logo" />
-  <a href="/dashboard" class="sidebar-button">
-    <img src="/home.png" alt="Home Icon" /> Home
-  </a>
-  <a href="/suggestedFriends.html" class="sidebar-button">
-    <img src="/search.png" alt="Search Icon" /> Suggested Friends
-  </a>  
-  
-  <a href="#" class="sidebar-button">
-    <img src="/messages.png" alt="Messages Icon" /> Messages
-  </a>
-  <a href="#" class="sidebar-button">
-    <img src="/post.png" alt="Post Icon" /> Post
-  </a>
-</div>
-
+<body>
+  <div class="sidebar">
+    <img src="/ascendlogo.png" alt="Ascend Logo" class="sidebar-logo" />
+    <a href="/dashboard" class="sidebar-button"><img src="/home.png" alt="Home Icon" /> Home</a>
+    <a href="#" class="sidebar-button"><img src="/search.png" alt="Search Icon" /> Search</a>
+    <a href="#" class="sidebar-button"><img src="/messages.png" alt="Messages Icon" /> Messages</a>
+    <a href="#" class="sidebar-button"><img src="/post.png" alt="Post Icon" /> Post</a>
+  </div>
 
   <div class="content-area">
     <div class="profile-container">
@@ -247,13 +270,13 @@
           <img id="profile-picture" src="/default-avatar.png" alt="Profile Picture" class="profile-pic" />
         </div>
         <div class="profile-info">
-          <h1 class="username" th:text="${user.username}">Username</h1>
+          <h1 class="username" id="username">Username</h1>
           <div class="profile-stats">
-            <span class="stat-item"><span th:text="${posts.size()}">0</span> posts</span>
-            <span class="stat-item"><span id="follower-count">0</span> followers</span>
-            <span class="stat-item"><span id="following-count">0</span> following</span>
+            <span class="stat-item" id="posts-count">0 posts</span>
+            <span class="stat-item" id="follower-count">0 followers</span>
+            <span class="stat-item" id="following-count">0 following</span>
           </div>
-          <div class="profile-bio" th:text="${user.bio}">No bio provided.</div>
+          <div class="profile-bio" id="profile-bio">No bio provided.</div>
         </div>
       </div>
 
@@ -267,79 +290,79 @@
 
       <div id="post-creator" style="display: none; margin: 10px; text-align: center;">
         <textarea id="post-content" rows="4" cols="50" placeholder="What's on your mind?" style="margin-bottom: 10px;"></textarea><br>
-        <input type="hidden" id="hidden-username" th:value="${user.username}" />
         <button id="submit-post-btn" class="primary">Submit Post</button>
       </div>
 
       <div id="posts-section" class="posts-grid">
-        <div th:each="post : ${posts}" class="post-item" 
-             th:text="${post.content}" 
-             th:onclick="'window.location.href=\'/posts/' + ${post.id} + '\''">
-        </div>
+        <!-- Posts will be populated here -->
       </div>
     </div>
 
     <div class="level-container">
       <h2 class="level-header">Your Level</h2>
       <div class="level-bar-container">
-        <div id="level-bar" class="level-bar" th:style="'width:' + ${user.xp} + '%'"></div>
+        <div id="level-bar" class="level-bar"></div>
       </div>
-      <p id="level-text" class="level-text" th:text="'Level ' + ${user.level}">Level 1</p>
+      <p id="level-text" class="level-text">Level 1</p>
     </div>
   </div>
 
 <script>
+const profileData = {
+  username: "John Doe",
+  bio: "KIA",
+  profilePicture: "/johndoe.png", 
+  posts: [
+    { id: 1, content: "SOS" },
+    { id: 2, content: "Where is my wife" },
+    { id: 3, content: "These rations are trash bruh" }
+  ],
+  followers: 14,
+  following: 24,
+  level: 5,
+  xp: 63 
+};
+
+// === Populate Profile Info ===
+document.getElementById('username').textContent = profileData.username;
+document.getElementById('profile-bio').textContent = profileData.bio;
+document.getElementById('profile-picture').src = profileData.profilePicture;
+document.getElementById('posts-count').textContent = `${profileData.posts.length} posts`;
+document.getElementById('follower-count').textContent = `${profileData.followers} followers`;
+document.getElementById('following-count').textContent = `${profileData.following} following`;
+document.getElementById('level-text').textContent = `Level ${profileData.level}`;
+document.getElementById('level-bar').style.width = `${profileData.xp}%`;
+
+// === Populate Posts ===
+const postsSection = document.getElementById('posts-section');
+profileData.posts.forEach(post => {
+  const postItem = document.createElement('div');
+  postItem.className = 'post-item';
+  postItem.textContent = post.content;
+  postItem.onclick = () => alert(`Clicked on post ID: ${post.id}`); // Replace alert with navigation if you want
+  postsSection.appendChild(postItem);
+});
+
+// === Post Creation Logic ===
 const createPostBtn = document.getElementById('create-post-button');
 const postCreator = document.getElementById('post-creator');
 const submitPostBtn = document.getElementById('submit-post-btn');
 const postContent = document.getElementById('post-content');
-const postsSection = document.getElementById('posts-section');
-const hiddenUsername = document.getElementById('hidden-username');
 
 createPostBtn.addEventListener('click', () => {
-  postCreator.style.display = (postCreator.style.display === 'none') ? 'block' : 'none';
+  postCreator.style.display = postCreator.style.display === 'none' ? 'block' : 'none';
 });
 
-submitPostBtn.addEventListener('click', async () => {
+submitPostBtn.addEventListener('click', () => {
   const content = postContent.value.trim();
-  const username = hiddenUsername.value;
-
-  if (content === '') {
-    alert('Post content cannot be empty.');
-    return;
-  }
-
-  try {
-    const response = await fetch('/createPost', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ username, content })
-    });
-
-    if (response.ok) {
-      const newPost = await response.json();
-      const postDiv = document.createElement('div');
-      postDiv.className = 'post-item';
-      postDiv.innerText = newPost.content;
-      postDiv.onclick = () => {
-        window.location.href = `/posts/${newPost.id}`;
-      };
-      postsSection.prepend(postDiv);
-      postContent.value = '';
-      postCreator.style.display = 'none';
-    } else {
-      alert('Failed to create post.');
-    }
-  } catch (error) {
-    console.error(error);
-    alert('Error creating post.');
+  if (content) {
+    const newPost = document.createElement('div');
+    newPost.className = 'post-item';
+    newPost.textContent = content;
+    postsSection.insertBefore(newPost, postsSection.firstChild);
+    postContent.value = "";
   }
 });
-
-
 </script>
-
 </body>
 </html>
