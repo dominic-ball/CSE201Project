@@ -17,7 +17,6 @@
       min-height: 100vh;
       flex-direction: column;
     }
-
     .post-container {
       background-color: #3a3a3a;
       border-radius: 15px;
@@ -27,26 +26,22 @@
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
       text-align: center;
     }
-
     .post-title {
       font-size: 2em;
       margin-bottom: 20px;
       color: #ffb400;
     }
-
     .post-content {
       font-size: 1.1em;
       margin-bottom: 20px;
-      white-space: pre-wrap; /* Keeps line breaks */
+      white-space: pre-wrap;
     }
-
     .post-meta {
       font-size: 0.9em;
       color: #bbb;
       margin-bottom: 20px;
     }
-
-    .back-button {
+    .like-button, .comment-button, .back-button {
       display: inline-block;
       padding: 10px 20px;
       background-color: #ffb400;
@@ -55,11 +50,19 @@
       border: none;
       border-radius: 10px;
       text-decoration: none;
+      margin: 5px;
       transition: background-color 0.3s ease;
     }
-
-    .back-button:hover {
+    .like-button:hover, .comment-button:hover, .back-button:hover {
       background-color: #e0a200;
+    }
+    .comment-form {
+      margin-top: 20px;
+    }
+    .comment-form input[type="text"] {
+      padding: 10px;
+      width: 80%;
+      margin-bottom: 10px;
     }
   </style>
 </head>
@@ -76,7 +79,33 @@
       on <span th:text="${post.timestamp} ?: 'Unknown time'"></span>
     </p>
 
-    <a href="/profile" class="back-button">← Back to Profile</a>
+    <p class="post-meta">
+      Likes: <span th:text="${post.likes} ?: 0"></span>
+    </p>
+
+    <!-- Like button -->
+    <form th:action="@{'/posts/' + ${post.id} + '/like'}" method="post">
+      <button class="like-button" type="submit">❤️</button>
+    </form>
+
+    <!-- Comment form -->
+    <div class="comment-form">
+      <form th:action="@{'/posts/' + ${post.id} + '/comment'}" method="post">
+        <input type="text" name="comment" placeholder="Write a comment..." required />
+        <button class="comment-button" type="submit">Comment</button>
+      </form>
+    </div>
+
+    <!-- Comments Section -->
+<div class="comments-section" style="margin-top: 30px; text-align: left;">
+  <h2 style="color: #ffb400;">Comments:</h2>
+  <ul>
+    <li th:each="comment : ${post.comments}" th:text="${comment}">Sample Comment</li>
+  </ul>
+</div>
+
+<a href="/profile" class="back-button">← Back to Profile</a>
+
   </div>
 
 </body>
