@@ -235,7 +235,7 @@
       text-align: center;
     }
 
-    #create-post-button {
+    .primary-button {
       padding: 10px 20px;
       background-color: #ffb400;
       border: none;
@@ -245,11 +245,15 @@
       font-size: 0.95em;
       cursor: pointer;
       transition: background-color 0.3s ease;
-      margin-top: 10px;
     }
 
-    #create-post-button:hover {
+    .primary-button:hover {
       background-color: #e0a200;
+    }
+
+    .primary-button.following {
+      background-color: #444;
+      color: white;
     }
   </style>
 </head>
@@ -258,8 +262,9 @@
   <div class="sidebar">
     <img src="/ascendlogo.png" alt="Ascend Logo" class="sidebar-logo" />
     <a href="/dashboard" class="sidebar-button"><img src="/home.png" alt="Home Icon" /> Home</a>
-    <a href="#" class="sidebar-button"><img src="/search.png" alt="Search Icon" /> Search</a>
-    <a href="#" class="sidebar-button"><img src="/messages.png" alt="Messages Icon" /> Messages</a>
+    <a id="profile-link" class="sidebar-button">
+      <img src="/profile.png" alt="Profile Icon" /> Profile
+    </a>
     <a href="#" class="sidebar-button"><img src="/post.png" alt="Post Icon" /> Post</a>
   </div>
 
@@ -270,7 +275,10 @@
           <img id="profile-picture" src="/default-avatar.png" alt="Profile Picture" class="profile-pic" />
         </div>
         <div class="profile-info">
-          <h1 class="username" id="username">Username</h1>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <h1 class="username" id="username">Username</h1>
+            <button id="follow-button" class="primary-button">Follow</button>
+          </div>
           <div class="profile-stats">
             <span class="stat-item" id="posts-count">0 posts</span>
             <span class="stat-item" id="follower-count">0 followers</span>
@@ -284,22 +292,13 @@
         <div class="nav-item active">POSTS</div>
       </nav>
 
-      <div style="text-align: center; margin: 10px;">
-        <button id="create-post-button">Create Post</button>
-      </div>
-
-      <div id="post-creator" style="display: none; margin: 10px; text-align: center;">
-        <textarea id="post-content" rows="4" cols="50" placeholder="What's on your mind?" style="margin-bottom: 10px;"></textarea><br>
-        <button id="submit-post-btn" class="primary">Submit Post</button>
-      </div>
-
       <div id="posts-section" class="posts-grid">
         <!-- Posts will be populated here -->
       </div>
     </div>
 
     <div class="level-container">
-      <h2 class="level-header">Your Level</h2>
+      <h2 class="level-header" id="level-header">User's Level:</h2>
       <div class="level-bar-container">
         <div id="level-bar" class="level-bar"></div>
       </div>
@@ -323,7 +322,7 @@ const profileData = {
   xp: 63 
 };
 
-// === Populate Profile Info ===
+// Populate profile info
 document.getElementById('username').textContent = profileData.username;
 document.getElementById('profile-bio').textContent = profileData.bio;
 document.getElementById('profile-picture').src = profileData.profilePicture;
@@ -332,37 +331,44 @@ document.getElementById('follower-count').textContent = `${profileData.followers
 document.getElementById('following-count').textContent = `${profileData.following} following`;
 document.getElementById('level-text').textContent = `Level ${profileData.level}`;
 document.getElementById('level-bar').style.width = `${profileData.xp}%`;
+document.getElementById('level-header').textContent = `${profileData.username}'s Level:`;
 
-// === Populate Posts ===
+// Update profile link with dynamic username
+document.getElementById('profile-link').href = `/profile?username=${encodeURIComponent(profileData.username)}`;
+
+// Populate posts
 const postsSection = document.getElementById('posts-section');
 profileData.posts.forEach(post => {
-  const postItem = document.createElement('div');
-  postItem.className = 'post-item';
-  postItem.textContent = post.content;
-  postItem.onclick = () => alert(`Clicked on post ID: ${post.id}`); // Replace alert with navigation if you want
-  postsSection.appendChild(postItem);
+  const postDiv = document.createElement('div');
+  postDiv.classList.add('post-item');
+  postDiv.textContent = post.content;
+  postsSection.appendChild(postDiv);
 });
 
-// === Post Creation Logic ===
-const createPostBtn = document.getElementById('create-post-button');
-const postCreator = document.getElementById('post-creator');
-const submitPostBtn = document.getElementById('submit-post-btn');
-const postContent = document.getElementById('post-content');
 
-createPostBtn.addEventListener('click', () => {
-  postCreator.style.display = postCreator.style.display === 'none' ? 'block' : 'none';
-});
 
-submitPostBtn.addEventListener('click', () => {
-  const content = postContent.value.trim();
-  if (content) {
-    const newPost = document.createElement('div');
-    newPost.className = 'post-item';
-    newPost.textContent = content;
-    postsSection.insertBefore(newPost, postsSection.firstChild);
-    postContent.value = "";
+let isFollowing = false;
+
+const followBtn = document.getElementById('follow-button');
+const followerCountElem = document.getElementById('follower-count');
+
+followBtn.addEventListener('click', () => {
+  isFollowing = !isFollowing;
+
+  if (isFollowing) {
+    followBtn.textContent = 'Following';
+    followBtn.classList.add('following');
+    profileData.followers += 1;  // Increase followers count
+  } else {
+    followBtn.textContent = 'Follow';
+    followBtn.classList.remove('following');
+    profileData.followers -= 1;  // Decrease followers count
   }
+
+  followerCountElem.textContent = `${profileData.followers} followers`;  // Update follower count
 });
+
 </script>
+
 </body>
 </html>
