@@ -1,17 +1,18 @@
 package socialMediaSite.demo.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import socialMediaSite.demo.service.UserService;
-import socialMediaSite.demo.service.PostService;
-import socialMediaSite.demo.model.User;
-import socialMediaSite.demo.model.Post;
 
-import java.util.List;
+import socialMediaSite.demo.model.Post;
+import socialMediaSite.demo.model.User;
+import socialMediaSite.demo.service.PostService;
+import socialMediaSite.demo.service.UserService;
 
 @Controller
 public class PageController {
@@ -33,6 +34,8 @@ public String profilePage(@RequestParam("username") String username, Model model
         System.out.println("User not found for username: " + username);
         return "error"; // or redirect back to login/home
     }
+
+    model.addAttribute("xpNeeded", user.xpNeededForNextLevel());
 
     System.out.println("Found user: " + user.getUsername());
 

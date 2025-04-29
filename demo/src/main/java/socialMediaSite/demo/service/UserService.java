@@ -4,13 +4,13 @@
 
 package socialMediaSite.demo.service;
 
-import socialMediaSite.demo.model.User;
-import socialMediaSite.demo.repository.UserRepository;
-
-import java.lang.foreign.Linker.Option;
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import socialMediaSite.demo.model.User;
+import socialMediaSite.demo.repository.UserRepository;
 
 @Service
 public class UserService {

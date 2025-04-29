@@ -5,7 +5,11 @@
  */
 package socialMediaSite.demo.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 @Entity
 
@@ -30,6 +34,18 @@ public class User {
     }
     public void setXp(double xp) {
         this.xp = xp;
+    }
+
+    public void addXp(double newXp){
+        this.setXp(this.getXp()+newXp);
+
+        while(xp >= this.xpNeededForNextLevel()){
+            increaseLevel();
+            double xpNeeded = this.xpNeededForNextLevel(); //DONT DELETE,  we need to save it like this
+            xp-=xpNeeded;
+            
+            
+        }
     }
     //getters and setters
     public String getUsername() {
@@ -86,5 +102,12 @@ public class User {
     public void setLevel(int level) {
        this.level = level;
     }
+
+    public void increaseLevel(){
+        level++;
+    }
     
+    public double xpNeededForNextLevel(){
+        return 100 * Math.pow(1.1, level); // about 10% harder per level
+    }
 }

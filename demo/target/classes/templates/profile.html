@@ -282,9 +282,18 @@
     <div class="level-container">
       <h2 class="level-header">Your Level</h2>
       <div class="level-bar-container">
-        <div id="level-bar" class="level-bar" th:style="'width:' + ${user.xp} + '%'"></div>
+        <div id="level-bar" class="level-bar" 
+          th:style="'width:' + ((${user.xp} / ${xpNeeded}) * 100) + '%'">
+        </div>
+
       </div>
+
       <p id="level-text" class="level-text" th:text="'Level ' + ${user.level}">Level 1</p>
+      <p class="level-text"
+      th:text="'XP: ' + ${#numbers.formatInteger(user.xp, 0)} + ' / ' + ${#numbers.formatInteger(xpNeeded, 0)}">
+      XP: 0 / 100
+    </p>
+
     </div>
   </div>
 
@@ -310,7 +319,7 @@ submitPostBtn.addEventListener('click', async () => {
   }
 
   try {
-    const response = await fetch('/createPost', {
+    const response = await fetch('/api/posts/create', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -320,6 +329,7 @@ submitPostBtn.addEventListener('click', async () => {
 
     if (response.ok) {
       const newPost = await response.json();
+      window.location.reload();
       const postDiv = document.createElement('div');
       postDiv.className = 'post-item';
       postDiv.innerText = newPost.content;
