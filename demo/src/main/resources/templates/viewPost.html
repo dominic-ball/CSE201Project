@@ -70,8 +70,7 @@
 <body>
 
   <div class="post-container">
-    <h1 class="post-title" th:text="${post.title} ?: 'No Title'"></h1>
-
+    <h1 class="post-title" th:text="${post.username} + '\'s post'"></h1>
     <p class="post-content" th:text="${post.content} ?: 'No content available.'"></p>
 
     <p class="post-meta">
@@ -104,10 +103,9 @@
   </ul>
 </div>
 
-
 <a th:href="@{'/profile?username=' + ${post.username}}" class="back-button">← Back to Profile</a>
 
-
+<a th:href="@{'/profile?username=' + ${post.username}}" class="back-button">← Back to Profile</a>
 
   </div>
 

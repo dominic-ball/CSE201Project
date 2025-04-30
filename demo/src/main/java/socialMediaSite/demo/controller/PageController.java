@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -24,31 +25,34 @@ public class PageController {
     private PostService postService;
 
     @GetMapping("/profile")
-public String profilePage(@RequestParam("username") String username, Model model) {
-    System.out.println("=== Entered /profile endpoint ===");
-    System.out.println("Looking up user: " + username);
+    public String profilePage(@RequestParam("username") String username, Model model) {
+        System.out.println("=== Entered /profile endpoint ===");
+        System.out.println("Looking up user: " + username);
 
-    User user = userService.getUserByUsername(username);
+        User user = userService.getUserByUsername(username);
 
-    if (user == null) {
-        System.out.println("User not found for username: " + username);
-        return "error"; // or redirect back to login/home
-    }
+        if (user == null) {
+            System.out.println("User not found for username: " + username);
+            return "error"; // or redirect back to login/home
+        }
+
 
     model.addAttribute("xpNeeded", user.xpNeededForNextLevel());
 
     System.out.println("Found user: " + user.getUsername());
 
-    List<Post> userPosts = postService.getPostsByUsername(username);
+        System.out.println("Found user: " + user.getUsername());
 
-    System.out.println("Number of posts loaded: " + (userPosts != null ? userPosts.size() : "null"));
+        List<Post> userPosts = postService.getPostsByUsername(username);
 
-    model.addAttribute("user", user);
-    model.addAttribute("posts", userPosts);
+        System.out.println("Number of posts loaded: " + (userPosts != null ? userPosts.size() : "null"));
 
-    System.out.println("=== Finished /profile endpoint ===");
+        model.addAttribute("user", user);
+        model.addAttribute("posts", userPosts);
 
-    return "profile";
+        System.out.println("=== Finished /profile endpoint ===");
+
+        return "profile";
 }
 
 
@@ -81,6 +85,19 @@ public String profilePage(@RequestParam("username") String username, Model model
         System.out.println("User registered successfully: " + username);
         //redirects to profile page 
         return "redirect:/profile?username=" + username;
+    }
+
+    @GetMapping("profile/{username}")
+    public String viewProfile(@PathVariable("username") String username, Model model) {
+        User user = userService.getUserByUsername(username);
+        if (user == null) {
+            return "redirect:/";
+        } 
+           model.addAttribute("user:, user");
+           List<Post> posts = postService.getPostsByUsername(username);
+           model.addAttribute("posts", posts);
+           return "profile";
+        
     }
 }
 
