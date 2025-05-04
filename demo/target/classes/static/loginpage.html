@@ -106,6 +106,7 @@
     
             const username = this.username.value;
             const password = this.password.value;
+            localStorage.setItem("username", username)
     
             fetch("/api/users/login", {
                 method: "POST",
@@ -123,6 +124,8 @@
     
                     //  Redirect with username in URL
                     window.location.href = "/profile?username=" + username;
+
+                    
                 }
             });
         });

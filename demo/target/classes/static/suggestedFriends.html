@@ -95,16 +95,49 @@
     .friend-item button:hover {
       background-color: #45a049;
     }
+    .profile-icon {
+      height: 20px;
+      margin-right: 8px;
+    }
   </style>
 </head>
+
+  
+<script>
+  // Wait until the DOM is fully loaded
+  document.addEventListener("DOMContentLoaded", function() {
+    // Retrieve the username from localStorage
+    const user = localStorage.getItem("username");
+
+    // If the username exists, set the profile link's href
+    if (user) {
+      const profileLink = document.getElementById("profile-link");
+      profileLink.href = `/profile?username=${user}`;  // Set the profile URL with the username
+    } else {
+      console.error("Username not found in localStorage");
+    }
+  });
+</script>
+
 
 <body>
   <div class="sidebar">
     <img src="/ascendlogo.png" alt="Ascend Logo" class="sidebar-logo" />
     
-    <a href="profile.html" class="sidebar-button">
-      <img src="/profile.png" alt="Search Icon" /> Profile
-    </a>  
+    <a href="#" class="sidebar-button" id="profile-link">
+      <img src="/profile.png" alt="Profile Icon" class="profile-icon" />
+      Profile
+    </a>
+    
+    
+    
+    
+    
+  
+  
+  
+    
+      
 
     
   </div>
@@ -114,7 +147,7 @@
     <h1 class="suggested-friends-header">Suggested Friends</h1>
 
     <div class="friend-list" id="friend-list">
-      <!-- John Doe -->
+      
       <div class="friend-item" onclick="redirectToProfile('templateProfile.html')">
         <div style="display: flex; align-items: center;">
           <img src="/johndoe.png" alt="John Doe" style="width: 50px; height: 50px; border-radius: 50%; margin-right: 15px;">

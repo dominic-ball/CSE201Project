@@ -258,11 +258,30 @@
   </style>
 </head>
 
+<script>
+  // Wait until the DOM is fully loaded
+  document.addEventListener("DOMContentLoaded", function() {
+    // Retrieve the username from localStorage
+    const user = localStorage.getItem("username");
+
+    // If the username exists, set the profile link's href
+    if (user) {
+      const profileLink = document.getElementById("profile-link");
+      profileLink.href = `/profile?username=${user}`;  // Set the profile URL with the username
+    } else {
+      console.error("Username not found in localStorage");
+    }
+  });
+</script>
+
+
 <body>
   <div class="sidebar">
     <img src="/ascendlogo.png" alt="Ascend Logo" class="sidebar-logo" />
-    <a id="profile-link" class="sidebar-button">
-      <img src="/profile.png" alt="Profile Icon" /> Profile
+    
+    <a href="#" class="sidebar-button" id="profile-link">
+      <img src="/profile.png" alt="Profile Icon" class="profile-icon" />
+      Profile
     </a>
   </div>
 
@@ -307,7 +326,7 @@
 <script>
 const profileData = {
   username: "TylerTheChiller",
-  bio: "Guitarist, gamer, and all-around chill dude. Just trying to survive in this crazy world.",
+  bio: "Mad chill bro",
   profilePicture: "level10_pfp.png", 
   posts: [
     { id: 1, content: "Have you guys ever heard 'Free Bird'? this song is crazy" },
