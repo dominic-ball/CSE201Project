@@ -1,21 +1,18 @@
 package socialMediaSite.demo.controller;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@RequestMapping("/")
+@Controller
 public class HomeController {
 
-    @GetMapping
-    public String sayHello() {
-        return "<script>window.location.href = '/loginpage.html';</script>";
-    }   
-
+    @GetMapping("/")
+    public String redirectToLogin() {
+        return "redirect:/loginpage.html";  // works with static HTML
+    }
 
     @GetMapping("/sign-up")
-    public String loginClicked() {
-        return "sign up placeholder";
+    public String redirectToSignup() {
+        return "redirect:/signuppage.html";  // works with static HTML
     }
 }
