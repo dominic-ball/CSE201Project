@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Item Shop - Ascend</title>
+  <style>
+    body {
+      background-color: #2e2e2e;
+      color: white;
+      font-family: sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+    .shop-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #3a3a3a;
+      border-radius: 15px;
+    }
+    .shop-title {
+      text-align: center;
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+    .shop-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+    .shop-item {
+      background-color: #444;
+      padding: 15px;
+      border-radius: 10px;
+      text-align: center;
+      border: 1px solid #666;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    }
+    .shop-item img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+    .shop-item p {
+      margin: 5px 0;
+    }
+    .shop-item button {
+      background-color: #ffb400;
+      color: #2e2e2e;
+      font-weight: bold;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .shop-item button:hover {
+      background-color: #e0a200;
+    }
+  </style>
+</head>
+<body>
+  <div class="shop-container">
+    <h1 class="shop-title">Item Shop</h1>
+    <div class="shop-grid">
+      <div class="shop-item">
+        <img src="/level1_pfp.png" alt="Level 1 PFP" />
+        <p>Level 1 PFP</p>
+        <button onclick="buyItem('level1_pfp.png', 0)">Buy (0 XP)</button>
+      </div>
+      <div class="shop-item">
+        <img src="/level5_pfp.png" alt="Level 5 PFP" />
+        <p>Level 5 PFP</p>
+        <button onclick="buyItem('level5_pfp.png', 610)">Buy (610 XP)</button>
+      </div>
+      <div class="shop-item">
+        <img src="/level10_pfp.png" alt="Level 10 PFP" />
+        <p>Level 10 PFP</p>
+        <button onclick="buyItem('level10_pfp.png', 1592)">Buy (1592 XP)</button>
+      </div>
+      <div class="shop-item">
+        <img src="/level20_pfp.png" alt="Level 20 PFP" />
+        <p>Level 20 PFP</p>
+        <button onclick="buyItem('level20_pfp.png', 5727)">Buy (5727 XP)</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    async function buyItem(filename, cost) {
+      const username = localStorage.getItem("username");
+      if (!username) {
+        alert("User not logged in");
+        return;
+      }
+
+      const response = await fetch("/api/shop/buy", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ username, filename, cost })
+      });
+
+      if (response.ok) {
+        alert("Item purchased successfully!");
+        window.location.href = "/profile?username=" + username;
+      } else {
+        alert("Purchase failed.");
+      }
+    }
+  </script>
+</body>
+</html>

@@ -79,6 +79,7 @@ public class PageController {
         newUser.setPassword(password);
         newUser.setBio("");
         newUser.setXp(0.0);
+        newUser.setSpendableXp(0.0);
         
         userService.register(newUser);
 

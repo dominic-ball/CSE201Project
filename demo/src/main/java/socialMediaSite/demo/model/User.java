@@ -28,6 +28,7 @@ public class User {
     private String profilePicPath;
     private double xp;
     private int level;
+    private double spendableXp;
 
     public double getXp() {
         return xp;
@@ -109,5 +110,11 @@ public class User {
     
     public double xpNeededForNextLevel(){
         return 100 * Math.pow(1.1, level); // about 10% harder per level
+    }
+    public void setSpendableXp(double setSpendableXp) {
+        this.spendableXp = setSpendableXp;
+    }
+    public double getSpendableXp() {
+        return spendableXp;
     }
 }

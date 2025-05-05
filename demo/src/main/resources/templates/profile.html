@@ -228,6 +228,10 @@
   <a href="/suggestedFriends.html" class="sidebar-button">
     <img src="/search.png" alt="Search Icon" /> Suggested Friends
   </a>  
+  <a th:href="@{/itemShop}" class="sidebar-button">
+    <img src="/shop.png" alt="Shop Icon" /> Item Shop
+  </a>
+
 </div>
 
 
@@ -235,7 +239,7 @@
     <div class="profile-container">
       <div class="profile-header">
         <div class="profile-pic-container">
-          <img id="profile-picture" src="/default-avatar.png" alt="Profile Picture" class="profile-pic" />
+          <img id="profile-picture" th:src="@{/${user.profilePicPath}}" alt="Profile Picture" class="profile-pic" />
         </div>
         <div class="profile-info">
           <h1 class="username" th:text="${user.username}">Username</h1>
