@@ -8,6 +8,6 @@ public class ItemShopPageController {
 
     @GetMapping("/itemShop")
     public String showShopPage() {
-        return "itemShop"; // Must match itemShop.html in src/main/resources/templates
+        return "itemShop"; 
     }
 }

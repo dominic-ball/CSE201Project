@@ -158,7 +158,7 @@
                 const reader = new FileReader();
                 reader.onload = function () {
                 preview.src = reader.result;
-                preview.dataset.imageData = reader.result; // ✅ store image data here
+                preview.dataset.imageData = reader.result; 
                 };
                 reader.readAsDataURL(file);
             }
@@ -177,7 +177,7 @@
   event.preventDefault();
 
   const bio = document.getElementById("bio").value;
-  const profilePicData = document.getElementById("profile-preview").dataset.imageData || ""; // ✅ use saved image
+  const profilePicData = document.getElementById("profile-preview").dataset.imageData || ""; 
   const username = new URLSearchParams(window.location.search).get("username");
 
   // Save to localStorage 

@@ -104,15 +104,13 @@
 
   
 <script>
-  // Wait until the DOM is fully loaded
   document.addEventListener("DOMContentLoaded", function() {
     // Retrieve the username from localStorage
     const user = localStorage.getItem("username");
 
-    // If the username exists, set the profile link's href
     if (user) {
       const profileLink = document.getElementById("profile-link");
-      profileLink.href = `/profile?username=${user}`;  // Set the profile URL with the username
+      profileLink.href = `/profile?username=${user}`;  
     } else {
       console.error("Username not found in localStorage");
     }
@@ -128,26 +126,11 @@
       <img src="/profile.png" alt="Profile Icon" class="profile-icon" />
       Profile
     </a>
-    
-    
-    
-    
-    
-  
-  
-  
-    
-      
-
-    
   </div>
 
-  <!-- Content Section -->
   <div class="content-area">
     <h1 class="suggested-friends-header">Suggested Friends</h1>
-
     <div class="friend-list" id="friend-list">
-      
       <div class="friend-item" onclick="redirectToProfile('templateProfile.html')">
         <div style="display: flex; align-items: center;">
           <img src="level5_pfp.png" alt="TylerTheChiller" style="width: 50px; height: 50px; border-radius: 50%; margin-right: 15px;">
@@ -157,22 +140,18 @@
           </div>
         </div>
       </div>
-    
-      <!-- Jane Smith -->
+  
       <div class="friend-item" onclick="redirectToProfile('templateProfile2.html')">
         <div style="display: flex; align-items: center;">
           <img src="level20_pfp.png" alt="b cart" style="width: 50px; height: 50px; border-radius: 50%; margin-right: 15px;">
           <div>
             <h3>b cart</h3>
-            <p>Suggested based on mutual friends</p>
+            <p>Suggested based on popularity</p>
           </div>
         </div>
       </div>
     </div>
     
-    
-
-  <!-- JavaScript to handle sending friend requests -->
   <script>
     function redirectToProfile(profilePage) {
       window.location.href = profilePage;

@@ -15,7 +15,7 @@ public class ShopItemController {
     @Autowired
     private UserService userService;
 
-    // Hardcoded item costs (can later be moved to DB or config)
+    // Hardcoded item costs 
     private static final Map<String, Integer> ITEM_COSTS = Map.of(
         "level1_pfp.png", 0,
         "level5_pfp.png", 610,
@@ -23,7 +23,7 @@ public class ShopItemController {
         "level20_pfp.png", 5727
     );
 
-    // Accept JSON with username, filename, and cost
+   
     @PostMapping("/buy")
     public String buyProfilePic(@RequestBody PurchaseRequest request) {
         User user = userService.getUserByUsername(request.getUsername());
@@ -50,7 +50,7 @@ public class ShopItemController {
         return "Success";
     }
 
-    // DTO for request body
+    
     public static class PurchaseRequest {
         private String username;
         private String filename;

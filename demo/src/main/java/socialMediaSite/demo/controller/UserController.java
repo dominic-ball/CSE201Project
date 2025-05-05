@@ -45,7 +45,7 @@ import java.util.Optional;
          }
      }
  
-     // Handles multipart/form-data submissions (setup.html form)
+     
      @PostMapping("/setup")
      public String setupUser(
          @RequestParam("username") String username,

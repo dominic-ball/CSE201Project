@@ -33,7 +33,7 @@ public class PageController {
 
         if (user == null) {
             System.out.println("User not found for username: " + username);
-            return "error"; // or redirect back to login/home
+            return "error"; 
         }
 
 
@@ -84,7 +84,7 @@ public class PageController {
         userService.register(newUser);
 
         System.out.println("User registered successfully: " + username);
-        //redirects to profile page 
+        
         return "redirect:/profile?username=" + username;
     }
 

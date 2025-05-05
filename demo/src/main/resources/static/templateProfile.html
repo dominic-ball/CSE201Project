@@ -259,15 +259,13 @@
 </head>
 
 <script>
-  // Wait until the DOM is fully loaded
   document.addEventListener("DOMContentLoaded", function() {
     // Retrieve the username from localStorage
     const user = localStorage.getItem("username");
 
-    // If the username exists, set the profile link's href
     if (user) {
       const profileLink = document.getElementById("profile-link");
-      profileLink.href = `/profile?username=${user}`;  // Set the profile URL with the username
+      profileLink.href = `/profile?username=${user}`; 
     } else {
       console.error("Username not found in localStorage");
     }
@@ -310,7 +308,6 @@
       </nav>
 
       <div id="posts-section" class="posts-grid">
-        <!-- Posts will be populated here -->
       </div>
     </div>
 
@@ -350,7 +347,6 @@ document.getElementById('level-text').textContent = `Level ${profileData.level}`
 document.getElementById('level-bar').style.width = `${profileData.xp}%`;
 document.getElementById('level-header').textContent = `${profileData.username}'s Level:`;
 
-// Update profile link with dynamic username
 document.getElementById('profile-link').href = `/profile?username=${encodeURIComponent(profileData.username)}`;
 
 // Populate posts
