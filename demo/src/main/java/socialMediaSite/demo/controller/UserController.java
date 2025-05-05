@@ -19,7 +19,8 @@
  
  import java.io.File;
  import java.io.IOException;
- import java.util.Optional;
+import java.util.Map;
+import java.util.Optional;
  
  @RestController
  @RequestMapping("/api/users")
@@ -119,5 +120,18 @@
          opt.ifPresent(user -> System.out.println("Serving profilePicPath: " + user.getProfilePicPath()));
          return opt.orElse(null);
      }
+
+     @GetMapping("/{username}/xp")
+    public ResponseEntity<?> getXp(@PathVariable String username) {
+        Optional<User> userOpt = userService.findByUsername(username);
+
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            return ResponseEntity.ok(Map.of("spendableXp", user.getSpendableXp()));
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
+    }
+
  }
  
