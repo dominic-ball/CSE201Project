@@ -65,22 +65,22 @@
   <div class="shop-container">
     <h1 class="shop-title">Item Shop</h1>
     <div class="shop-grid">
-      <div class="shop-item">
+      <div class="shop-item " data-cost="0">
         <img src="/level1_pfp.png" alt="Level 1 PFP" />
         <p>Level 1 PFP</p>
         <button onclick="buyItem('level1_pfp.png', 0)">Buy (0 XP)</button>
       </div>
-      <div class="shop-item">
+      <div class="shop-item" data-cost="610">
         <img src="/level5_pfp.png" alt="Level 5 PFP" />
         <p>Level 5 PFP</p>
         <button onclick="buyItem('level5_pfp.png', 610)">Buy (610 XP)</button>
       </div>
-      <div class="shop-item">
+      <div class="shop-item" data-cost="1220">
         <img src="/level10_pfp.png" alt="Level 10 PFP" />
         <p>Level 10 PFP</p>
         <button onclick="buyItem('level10_pfp.png', 1592)">Buy (1592 XP)</button>
       </div>
-      <div class="shop-item">
+      <div class="shop-item" data-cost="5727">
         <img src="/level20_pfp.png" alt="Level 20 PFP" />
         <p>Level 20 PFP</p>
         <button onclick="buyItem('level20_pfp.png', 5727)">Buy (5727 XP)</button>
@@ -95,22 +95,45 @@
         alert("User not logged in");
         return;
       }
-
-      const response = await fetch("/api/shop/buy", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ username, filename, cost })
-      });
-
-      if (response.ok) {
-        alert("Item purchased successfully!");
-        window.location.href = "/profile?username=" + username;
-      } else {
-        alert("Purchase failed.");
+  
+      try {
+        // Fetch current spendable XP for the user
+        const xpResponse = await fetch(`/api/users/${username}/xp`);
+        if (!xpResponse.ok) {
+          alert("Could not fetch XP. Try again later.");
+          return;
+        }
+  
+        const xpData = await xpResponse.json();
+        const spendableXp = xpData.spendableXp;
+  
+        if (spendableXp < cost) {
+          alert(`Not enough XP! You need ${cost}, but you have ${spendableXp}.`);
+          return;
+        }
+  
+        // Proceed with purchase
+        const response = await fetch("/api/shop/buy", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ username, filename, cost })
+        });
+  
+        if (response.ok) {
+          alert("Item purchased successfully!");
+          window.location.href = "/profile?username=" + username;
+        } else {
+          const errorText = await response.text();
+          alert("Purchase failed: " + errorText);
+        }
+      } catch (error) {
+        console.error(error);
+        alert("Something went wrong during the purchase.");
       }
     }
   </script>
+  
 </body>
 </html>

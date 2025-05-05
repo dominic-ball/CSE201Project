@@ -239,8 +239,12 @@
     <div class="profile-container">
       <div class="profile-header">
         <div class="profile-pic-container">
-          <img id="profile-picture" th:src="@{/${user.profilePicPath}}" alt="Profile Picture" class="profile-pic" />
-        </div>
+          <img id="profile-picture"
+            th:src="${user.profilePicPath != null} ? @{${user.profilePicPath}} : @{'/default-avatar.png'}"
+            alt="Profile Picture"
+            class="profile-pic" />
+
+             </div>
         <div class="profile-info">
           <h1 class="username" th:text="${user.username}">Username</h1>
           <div class="profile-stats">
